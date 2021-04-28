@@ -11,5 +11,7 @@ int main(void) {
 
    std::cout << "TODO: Implement Qwirkle!" << std::endl;
 
+   std::cout << "Richard messing around!" << std::endl;
+
    return EXIT_SUCCESS;
 }
