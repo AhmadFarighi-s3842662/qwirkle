@@ -17,21 +17,21 @@ public:
     Tile(Tile&& other);
     ~Tile();
 
-    // Alternate constructor to parse colour & shape from a string
-    Tile(std::string tileString);
-
     // Getters & setters
     Colour getColour();
     void setColour(Colour newColour);
     Shape getShape();
     void setShape(Shape newShape);
 
-    // Get tile in [letter][number] string format
+    // Get [letter][number] string representation of the tile
     std::string toString();
+
+    // Check if a tile exactly matches another tile
+    bool equals(Tile t);
 
 private:
    Colour colour;
-   Shape  shape;
+   Shape shape;
 };
 
 #endif // ASSIGN2_TILE_H

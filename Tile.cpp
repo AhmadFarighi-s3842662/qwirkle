@@ -1,41 +1,53 @@
+#include <cctype>
+
 #include "Tile.h"
 
-Tile::Tile(Colour colour, Shape shape) {
-    // TODO
-}
+Tile::Tile(Colour colour, Shape shape) :
+    colour(std::toupper(colour)),
+    shape(shape)
+{}
 
-Tile::Tile(std::string tileString) {
-    // TODO
-}
+Tile::Tile(Tile& other) :
+    colour(other.colour),
+    shape(other.shape)
+{}
 
-Tile::Tile(Tile& other) {
-    // TODO
-}
-
-Tile::Tile(Tile&& other) {
-    // TODO
-}
+Tile::Tile(Tile&& other) :
+    colour(other.colour),
+    shape(other.shape)
+{}
 
 Tile::~Tile() {
-    // TODO
+    // No manual deletes necessary
 }
 
-Colour getColour() {
-    // TODO
+Colour Tile::getColour() {
+    return colour;
 }
 
 void Tile::setColour(Colour newColour) {
-    // TODO
+    colour = std::toupper(newColour);
 }
 
 Shape Tile::getShape() {
-    // TODO
+    return shape;
 }
 
 void Tile::setShape(Shape newShape)  {
-    // TODO
+    shape = newShape;
 }
 
 std::string Tile::toString()  {
     // TODO
+    return "";
+}
+
+bool Tile::equals(Tile t) {
+    bool isMatch = false;
+
+    if (t.getColour() == colour && t.getShape() == shape) {
+        isMatch = true;
+    }
+
+    return isMatch;
 }
