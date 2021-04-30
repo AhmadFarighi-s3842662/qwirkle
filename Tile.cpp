@@ -37,9 +37,9 @@ void Tile::setShape(Shape newShape)  {
     shape = newShape;
 }
 
-std::string Tile::toString()  {
-    // TODO
-    return "";
+std::string Tile::toString() {
+    std::string stringRepr = colour + std::to_string(shape);
+    return stringRepr;
 }
 
 bool Tile::equals(Tile t) {
