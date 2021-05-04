@@ -36,21 +36,25 @@ LinkedList::~LinkedList() {
       Node* next = nullptr;
       int counter = 0;
 
+      // Actually, do I even need the counter?
       while (n != nullptr && counter < size) {
       next = n->next;
       delete n;
       n = next;
+      counter++;
       }
    }
 }
 
-void LinkedList::printList(Node *n)
+void LinkedList::printList()
 {
    if (size > 0){
+      Node* n = head;
       while (n != NULL){
-         std::cout << n->tile << " ";
+         std::cout << n->tile->toString() << " ";
          n = n->next;
       }
+      std::cout << std::endl;
    }
    else{
       std::cout << "This list is empty!" << std::endl;
@@ -83,25 +87,36 @@ void LinkedList::addBack(Tile* tile){
    }
 }
 
-void LinkedList::insert(Tile* tile, int index){
-   if(size == 0){
+void LinkedList::insert(Tile *tile, int index)
+{
+   if (size == 0)
+   {
       addFront(tile);
    }
-   else{
-      Node* n = head;
-      int counter = 0;
-
-      while (n != nullptr && counter < index) {
-      n = n->next;
+   else
+   {
+      if (index == 0)
+      {
+         addFront(tile);
       }
-      if (counter == size){
+      // This case is scuffed, need to change function.
+      else if (index >= size)
+      {
          addBack(tile);
       }
-      else {
-      Node* newNode = new Node(tile,n->previous, n->next);
-      n->previous->next = newNode;
-      n->next->previous = newNode;
-      size++;
+      else
+      {
+         Node* n = head;
+         int counter = 0;
+         while (n != nullptr && counter < index)
+         {
+            n = n->next;
+            counter++;
+         }
+         Node* newNode = new Node(tile, n->previous, n->next);
+         n->previous->next = newNode;
+         n->next->previous = newNode;
+         size++;
       }
    }
 }
@@ -135,15 +150,24 @@ void LinkedList::remove(int index){
    std::cout << "Cannot remove: this list is empty!" << std::endl;
    }
    else {
-      Node* n = head;
-      int counter = 0;
-      while (n != nullptr && counter < index) {
-      n = n->next;
+      if (index == 0){
+         removeFront();
       }
-      n->previous->next = n->next;
-      n->next->previous = n->previous;
-      delete n;
-      size--;
+      else if (index == size){
+         removeBack();
+      }
+      else{
+         Node* n = head;
+         int counter = 0;
+            while (n != nullptr && counter < index) {
+            n = n->next;
+            counter++;
+            }
+         n->previous->next = n->next;
+         n->next->previous = n->previous;
+         delete n;
+         size--;
+      }
    }
 }
 
@@ -190,6 +214,7 @@ Tile* LinkedList::get(int index){
       int counter = 0;
       while (n != nullptr && counter < index) {
       n = n->next;
+      counter++;
       }
       tile = n->tile;
    }
@@ -203,10 +228,10 @@ int LinkedList::findTileIndex(Tile* tile){
    Node* n = head;
    int index = 0;
    int counter = 0;
-   bool found = false;
 
    while (n != nullptr && counter < size && n->tile != tile) {
       n = n->next;
+      counter++;
    }
    if (n == nullptr){
       index = -1;

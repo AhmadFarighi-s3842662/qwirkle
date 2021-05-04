@@ -12,7 +12,7 @@ public:
    LinkedList(LinkedList& other);
    ~LinkedList();
 
-   void printList(Node* n);
+   void printList();
 
 // we won't need addFront or insert, but do them for practise
    void addFront(Tile* tile);
