@@ -22,6 +22,7 @@ public:
    void removeFront();
    void removeBack();
    void remove(int index);
+   void clear();
 
    Tile* getFront();
    Tile* getBack();

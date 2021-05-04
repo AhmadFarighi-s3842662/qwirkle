@@ -7,16 +7,26 @@ LinkedList::LinkedList() {
    size = 0;
 }
 
+// The deep copy constructor and clear methods are adapted from this post:
+// https://stackoverflow.com/a/34963321
+
 LinkedList::LinkedList(LinkedList& other) {
-   // This is scuffed, will fix after dinner.
-   // if (other.head == nullptr)
-   // {
-   //    return;
-   // }
-   // Node* newHead = other.head;
-   // head = nullptr;
-   // tail = nullptr;
-   // size = other.size;
+   if (other.head == nullptr)
+   {
+      head = tail = nullptr;
+   }
+   else {
+   head = new Node(*other.head);
+   Node* tempOther = new Node(*other.head->next);
+   Node* temp = head;
+      while (tempOther != nullptr){
+         temp->next = new Node(tempOther->tile, temp, nullptr);
+         temp = temp->next;
+         tempOther = tempOther->next;
+      }
+   tail = temp;
+   }
+
 }
 
 LinkedList::~LinkedList() {
@@ -135,6 +145,17 @@ void LinkedList::remove(int index){
       delete n;
       size--;
    }
+}
+
+void LinkedList::clear(){
+   Node* n = head;
+   while (n != nullptr){
+      Node* del = n;
+      n = n->next;
+      delete del;
+      size--;
+   }
+   head = tail = nullptr;
 }
 
 Tile* LinkedList::getFront(){
