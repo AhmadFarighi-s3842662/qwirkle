@@ -7,12 +7,12 @@
 class Node {
 public:
 
-   Node(Tile* tile, Node* next, Node* previous);
+   Node(Tile* tile, Node* previous, Node* next);
    Node(Node& other);
 
    Tile*    tile;
-   Node*    next;
    Node*    previous;
+   Node*    next;
 };
 
 #endif // ASSIGN2_NODE_H

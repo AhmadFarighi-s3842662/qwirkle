@@ -1,12 +1,16 @@
 
 #include "Node.h"
 
-Node::Node(Tile* tile, Node* next)
+Node::Node(Tile* pTile, Node* pPrevious, Node* pNext)
 {
-   // TODO
+   tile = pTile;
+   previous = pPrevious;
+   next = pNext;
 }
 
 Node::Node(Node& other)
 {
-   // TODO
+   tile = other.tile;
+   previous = other.previous;
+   next = other.next;
 }

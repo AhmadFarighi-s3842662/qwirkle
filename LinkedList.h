@@ -9,22 +9,23 @@ class LinkedList {
 public:
 
    LinkedList();
+   LinkedList(LinkedList& other);
    ~LinkedList();
 
    void printList(Node* n);
 
 // we won't need addFront or insert, but do them for practise
    void addFront(Tile* tile);
-   void insert(Tile* tile, int index);
    void addBack(Tile* tile);
+   void insert(Tile* tile, int index);
 
    void removeFront();
-   void remove(int index);
    void removeBack();
+   void remove(int index);
 
    Tile* getFront();
-   Tile* get(int index);
    Tile* getBack();
+   Tile* get(int index);
 
    int findTileIndex(Tile* tile);
 
