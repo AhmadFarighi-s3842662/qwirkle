@@ -113,9 +113,13 @@ void LinkedList::insert(Tile *tile, int index)
             n = n->next;
             counter++;
          }
-         Node* newNode = new Node(tile, n->previous, n->next);
-         n->previous->next = newNode;
-         n->next->previous = newNode;
+         std::cout << n->previous->tile->toString() << std::endl;
+         std::cout << n->next->tile->toString() << std::endl;
+         Node* newNode = new Node(tile, n->previous, n);
+         newNode->previous->next = newNode;
+         newNode->next->previous = newNode;
+         // n->previous->next = newNode;
+         // n->next->previous = newNode;
          size++;
       }
    }
