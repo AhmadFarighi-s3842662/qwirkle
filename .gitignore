@@ -4,3 +4,4 @@
 
 # Ignore executable
 qwirkle
+valgrind-out.txt
