@@ -7,13 +7,13 @@ qwirkle Class           nullptr
 
 launch / menu           Ahmad
 
-Game Logic
-Game Class
-Board Class
-Player Class
-Hand Class              Richard
-TileBag Class           Richard
+Game Logic              Richard
+Game Class              Aaron
+    TileBag             Aaron
+    Save/Load game      Aaron
+
+Board Class             Dan
+Player Class            Ahmad
+    Hand                Ahmad
 
 Function: Gaceful exit at all times
-
-Save/Load game
