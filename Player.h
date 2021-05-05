@@ -5,14 +5,13 @@
 using std::string;
 class Player {
     public:
-        // constructors & destructor
+        // constructor & destructor
         Player(string n);
         ~Player();
 
         // setters & getters
         void setScore(int s);
         int getScore();
-        void setName(string n);
         string getName();
         string getHand();
 
