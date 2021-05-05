@@ -208,3 +208,7 @@ int LinkedList::findTileIndex(Tile* tile){
    }
    return index;
 }
+
+int LinkedList::getSize(){
+   return size;
+}
