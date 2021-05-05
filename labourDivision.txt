@@ -1,0 +1,19 @@
+  ~Item~               ~Assigned to:
+Tile Class              Dan
+Node Class              Richard
+Linked List Class       Richard
+
+qwirkle Class           nullptr
+
+launch / menu           Ahmad
+
+Game Logic
+Game Class
+Board Class
+Player Class
+Hand Class              Richard
+TileBag Class           Richard
+
+Function: Gaceful exit at all times
+
+Save/Load game

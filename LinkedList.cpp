@@ -46,15 +46,16 @@ LinkedList::~LinkedList() {
    }
 }
 
-void LinkedList::printList()
+std::string LinkedList::toString()
 {
    if (size > 0){
+      std::string str = "";
       Node* n = head;
       while (n != NULL){
-         std::cout << n->tile->toString() << " ";
+         str + n->tile->toString() + ",";
          n = n->next;
       }
-      std::cout << std::endl;
+      str + "/n";
    }
    else{
       std::cout << "This list is empty!" << std::endl;
@@ -84,44 +85,6 @@ void LinkedList::addBack(Tile* tile){
       tail->next = newNode;
       tail = newNode;
       size++;
-   }
-}
-
-void LinkedList::insert(Tile *tile, int index)
-{
-   if (size == 0)
-   {
-      addFront(tile);
-   }
-   else
-   {
-      if (index == 0)
-      {
-         addFront(tile);
-      }
-      // This case is scuffed, need to change function.
-      else if (index >= size)
-      {
-         addBack(tile);
-      }
-      else
-      {
-         Node* n = head;
-         int counter = 0;
-         while (n != nullptr && counter < index)
-         {
-            n = n->next;
-            counter++;
-         }
-         std::cout << n->previous->tile->toString() << std::endl;
-         std::cout << n->next->tile->toString() << std::endl;
-         Node* newNode = new Node(tile, n->previous, n);
-         newNode->previous->next = newNode;
-         newNode->next->previous = newNode;
-         // n->previous->next = newNode;
-         // n->next->previous = newNode;
-         size++;
-      }
    }
 }
 
