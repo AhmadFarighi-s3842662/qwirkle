@@ -31,5 +31,11 @@ string Player::getHand() {
     return hand->toString();
 }
 
+bool Player::removeFromHand(string s) {
+    bool successfulRemoval = false;
+    
+    
+}
+
 
 
