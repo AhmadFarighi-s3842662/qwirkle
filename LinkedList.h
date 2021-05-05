@@ -28,6 +28,7 @@ public:
    Tile* get(int index);
 
    int findTileIndex(Tile* tile);
+   int getSize();
 
 private:
    Node* head;
