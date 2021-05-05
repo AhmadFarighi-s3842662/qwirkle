@@ -58,7 +58,7 @@ int main(void) {
          iss >> selection;
          if (iss.fail()) {
             if (iss.eof()) {
-               return EXIT_SUCCESS;
+               exit (EXIT_SUCCESS);
             }
             cout << "Invalid Input. Please enter a number from 1-4." << endl;
          } else {
