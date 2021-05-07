@@ -59,6 +59,7 @@ Tile* Board::tileAt(char row, int col) {
     try {
         boardPos = board.at(rowCharToIndex(row)).at(col);
 
+        // returnPointer stays as null if there is no tile at this position
         if (!boardPos->hasBlankValue()) {
             returnPointer = new Tile(*boardPos);
         }
@@ -70,8 +71,24 @@ Tile* Board::tileAt(char row, int col) {
     return returnPointer;
 }
 
-bool Board::placeTile(Tile tile, char row, int col) {
-    return false;
+bool Board::placeTile(Tile& tile, char row, int col) {
+    bool tilePlaced = false;
+    Tile* boardPos = nullptr;
+
+    try {
+        boardPos = board.at(rowCharToIndex(row)).at(col);
+
+        // Modify the existing tile in the board so that its colour and shape
+        // match that of the given tile
+        boardPos->setColour(tile.getColour());
+        boardPos->setShape(tile.getShape());
+
+        tilePlaced = true;
+    } catch (std::out_of_range& e) {
+        // Could not place the tile, tilePlaced remains false
+    }
+
+    return tilePlaced;
 }
 
 std::string Board::toString() {

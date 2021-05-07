@@ -26,7 +26,7 @@ public:
 
     // Place a tile on the board. Return true if successful, otherwise false
     // Stores a copy of the given tile in the board.
-    bool placeTile(Tile tile, char row, int col);
+    bool placeTile(Tile& tile, char row, int col);
 
     // Get the board in string format, for printing to the console
     std::string toString();
