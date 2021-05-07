@@ -41,6 +41,16 @@ Board::~Board() {
     }
 }
 
+int Board::getHeight() {
+    return (int) board.size();
+}
+
+int Board::getWidth() {
+    // Gets the length of the first row, which, in normal operation, should
+    // have a length equal to that of all other rows.
+    return (int) board.at(0).size();
+}
+
 Tile* Board::tileAt(char row, int col) {
     Tile* returnPointer = nullptr;
     Tile* boardPos = board.at(rowCharToIndex(row)).at(col);

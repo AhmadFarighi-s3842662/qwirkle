@@ -16,6 +16,10 @@ public:
     Board(Board& other);
     ~Board();
 
+    // Board dimension getters
+    int getHeight();
+    int getWidth();
+
     // Get a pointer to a copy of the tile at a position on the board, or a
     // nullptr if there is no tile at that position
     Tile* tileAt(char row, int col);
