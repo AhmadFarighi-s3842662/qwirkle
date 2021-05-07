@@ -31,7 +31,7 @@ public:
     std::string serialise();
 
 private:
-    std::vector<std::vector<Tile>> board;
+    std::vector<std::vector<Tile*>> board;
 };
 
 #endif // ASSIGN2_BOARD_H
