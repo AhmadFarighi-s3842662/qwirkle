@@ -48,6 +48,16 @@ bool Player::removeFromHand(string s) {
     return tileExistence;
 }
 
+bool Player::removeFromHand(Tile* t) {
+    bool tileExistence = false;
+    if (hand->contains(t)) {
+        tileExistence = true;
+        int i = hand->findTileIndex(t);
+        hand->remove(i);
+    }
+    return tileExistence;
+}
+
 void Player::addToHand(Tile* t) {
     // maybe this should also be a boolean? I left it as void because adding to playerhand should be handled by game logic
     if (hand->getSize() < MAX_PLAYER_HAND_SIZE) {

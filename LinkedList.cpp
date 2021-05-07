@@ -48,11 +48,12 @@ LinkedList::~LinkedList() {
 
 std::string LinkedList::toString()
 {
+   std::string str = "";
    if (size > 0){
-      std::string str = "";
       Node* n = head;
-      while (n != NULL){
-         str + n->tile->toString() + ",";
+      while (n != nullptr){
+         str += n->tile->toString();
+         if (n->next != nullptr) { str += ",";}
          n = n->next;
       }
       str + "/n";
@@ -60,6 +61,7 @@ std::string LinkedList::toString()
    else{
       std::cout << "This list is empty!" << std::endl;
    }
+   return str;
 }
 
 void LinkedList::addFront(Tile* tile){
@@ -149,6 +151,20 @@ void LinkedList::clear(){
    head = tail = nullptr;
 }
 
+bool LinkedList::contains(Tile* t) {
+   bool result = false;
+   Node* temp = head;
+   while(temp != nullptr) {
+      // debugging
+      // std::cout << "checking... " << temp->tile->toString() << std::endl;
+      if (temp->tile->equals(*t)) {
+         result = true;
+      }
+      temp = temp->next;
+   }
+   return result;
+}
+
 Tile* LinkedList::getFront(){
    Tile* tile = nullptr;
    if (head != nullptr)
@@ -196,7 +212,7 @@ int LinkedList::findTileIndex(Tile* tile){
    int index = 0;
    int counter = 0;
 
-   while (n != nullptr && counter < size && n->tile != tile) {
+   while (n != nullptr && counter < size && !n->tile->equals(*tile)) {
       n = n->next;
       counter++;
    }

@@ -22,6 +22,7 @@ public:
    void removeBack();
    void remove(int index);
    void clear();
+   bool contains(Tile* t);
 
    Tile* getFront();
    Tile* getBack();

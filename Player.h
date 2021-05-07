@@ -17,6 +17,7 @@ class Player {
 
         // methods to modify player hand
         bool removeFromHand(string t);
+        bool removeFromHand(Tile* t);
         void addToHand(Tile* t);
 
     private:
