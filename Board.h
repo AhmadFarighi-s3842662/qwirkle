@@ -16,8 +16,8 @@ public:
     Board(Board& other);
     ~Board();
 
-    // Get a pointer to the tile at a position on the board, or a nullptr if
-    // there is no tile at that position
+    // Get a pointer to a copy of the tile at a position on the board, or a
+    // nullptr if there is no tile at that position
     Tile* tileAt(char row, int col);
 
     // Place a tile on the board. Return true if successful, otherwise false
@@ -32,6 +32,12 @@ public:
 
 private:
     std::vector<std::vector<Tile*>> board;
+
+    // Convert the char used to identify a row to the corresponding index in
+    // the board vector
+    //
+    // Expects a character from A-Z (can be uppercase or lowercase)
+    int rowCharToIndex(char row);
 };
 
 #endif // ASSIGN2_BOARD_H

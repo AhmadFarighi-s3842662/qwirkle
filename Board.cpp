@@ -1,5 +1,9 @@
+#include <cctype>
+
 #include "Board.h"
 #include "TileCodes.h"
+
+#define ASCII_VALUE_A 65
 
 Board::Board() {
     // Initialise board with rows of "blank" tiles to represent empty spaces
@@ -38,7 +42,14 @@ Board::~Board() {
 }
 
 Tile* Board::tileAt(char row, int col) {
-    return nullptr;
+    Tile* returnPointer = nullptr;
+    Tile* boardPos = board.at(rowCharToIndex(row)).at(col);
+
+    if (!boardPos->hasBlankValue()) {
+        returnPointer = new Tile(*boardPos);
+    }
+
+    return returnPointer;
 }
 
 bool Board::placeTile(Tile tile, char row, int col) {
@@ -51,4 +62,17 @@ std::string Board::toString() {
 
 std::string Board::serialise() {
     return "";
+}
+
+int Board::rowCharToIndex(char row) {
+    row = std::toupper(row);
+
+    /*
+     * ASCII uppercase characters begin from 65, so subtracting 65 from the
+     * character's value produces the corresponding row index in the vector.
+     * 
+     * A useful table can be found here:
+     * https://www.w3schools.com/charsets/ref_html_ascii.asp
+     */ 
+    return (int) row - ASCII_VALUE_A;
 }
