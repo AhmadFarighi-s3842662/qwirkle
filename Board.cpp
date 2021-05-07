@@ -1,4 +1,5 @@
 #include <cctype>
+#include <stdexcept>
 
 #include "Board.h"
 #include "TileCodes.h"
@@ -53,11 +54,18 @@ int Board::getWidth() {
 
 Tile* Board::tileAt(char row, int col) {
     Tile* returnPointer = nullptr;
-    Tile* boardPos = board.at(rowCharToIndex(row)).at(col);
+    Tile* boardPos = nullptr;
 
-    if (!boardPos->hasBlankValue()) {
-        returnPointer = new Tile(*boardPos);
-    }
+    try {
+        boardPos = board.at(rowCharToIndex(row)).at(col);
+
+        if (!boardPos->hasBlankValue()) {
+            returnPointer = new Tile(*boardPos);
+        }
+    } catch (std::out_of_range& e) {
+        // returnPointer is already set to nullptr, so no need to do anything
+        // here
+    }  
 
     return returnPointer;
 }
