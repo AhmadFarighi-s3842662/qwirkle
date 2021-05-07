@@ -16,7 +16,17 @@ Board::Board() {
 }
 
 Board::Board(Board& other) {
+    // Make copies of all tiles in the source board
+    for (unsigned int i = 0; i < other.board.size(); ++i) {
+        std::vector<Tile*> tileRow;
 
+        for (unsigned int j = 0; j < other.board.at(i).size(); ++j) {
+            Tile* currentTile = other.board.at(i).at(j);
+            tileRow.push_back(new Tile(*currentTile));
+        }
+
+        board.push_back(tileRow);
+    }
 }
 
 Board::~Board() {
