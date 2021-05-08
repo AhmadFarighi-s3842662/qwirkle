@@ -3,13 +3,12 @@
 #define ASSIGN1_TILECODES_H
 
 // Colours
-#define RED    'R'
-#define ORANGE 'O'
-#define YELLOW 'Y'
-#define GREEN  'G'
-#define BLUE   'B'
-#define PURPLE 'P'
-
+#define RED       'R'
+#define ORANGE    'O'
+#define YELLOW    'Y'
+#define GREEN     'G'
+#define BLUE      'B'
+#define PURPLE    'P'
 #define NO_COLOUR 'X'
 
 // Shapes
