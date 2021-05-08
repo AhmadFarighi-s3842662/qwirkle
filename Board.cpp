@@ -5,6 +5,7 @@
 #include "TileCodes.h"
 
 #define ASCII_VALUE_A 65
+#define COLUMN_WIDTH 3
 
 Board::Board() {
     // Initialise board with rows of "blank" tiles to represent empty spaces
@@ -92,7 +93,64 @@ bool Board::placeTile(Tile& tile, char row, int col) {
 }
 
 std::string Board::toString() {
-    return "";
+    std::string repr = "";
+
+    // Whitespace before column labels
+    repr += "   ";
+
+    // Column labels
+    for (unsigned int i = 0; i < board.at(0).size(); ++i) {
+        std::string colLabel = std::to_string(i);
+        repr += colLabel;
+
+        // Add whitespace to align labels with columns
+        for (unsigned int j = 0; j < COLUMN_WIDTH - colLabel.length(); ++j) {
+            repr += " ";
+        }
+    }
+
+    repr += "\n";
+
+    // Horizontal line below column labels
+    repr += "  -";
+
+    for (unsigned int i = 0; i < board.at(0).size(); ++i) {
+        for (int j = 0; j < COLUMN_WIDTH; ++j) {
+            repr += "-";
+        }
+    }
+
+    repr += "\n";
+
+    // Rows
+    for (unsigned int i = 0; i < board.size(); ++i) {
+        // Row label, represented as a letter
+        repr += (char) i + ASCII_VALUE_A;
+
+        // Pipe between the label and the grid
+        repr += " |";
+
+        // Append each column in the row
+        for (unsigned int j = 0; j < board.at(i).size(); ++j) {
+            Tile* tile = board.at(i).at(j);
+
+            // Append the tile only if one exists at that cell
+            if (!tile->hasBlankValue()) {
+                repr += tile->toString();
+            } else {
+                repr += "  ";
+            }
+
+            repr += "|";
+        }
+
+        // Last row doesn't have a newline at the end
+        if (i < board.size() - 1) {
+            repr += "\n";
+        }
+    }
+
+    return repr;
 }
 
 std::string Board::serialise() {
