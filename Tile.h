@@ -26,8 +26,11 @@ public:
     // Get [letter][number] string representation of the tile
     std::string toString();
 
-    // Check if a tile exactly matches another tile
+    // Check if a tile's shape and colour exactly match those of another tile
     bool equals(Tile t);
+
+    // Check if a tile has at least one blank value
+    bool hasBlankValue();
 
 private:
    Colour colour;

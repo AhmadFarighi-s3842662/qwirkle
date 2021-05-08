@@ -1,6 +1,7 @@
 #include <cctype>
 
 #include "Tile.h"
+#include "TileCodes.h"
 
 Tile::Tile(Colour colour, Shape shape) :
     colour(std::toupper(colour)),
@@ -43,11 +44,9 @@ std::string Tile::toString() {
 }
 
 bool Tile::equals(Tile t) {
-    bool isMatch = false;
+    return t.getColour() == colour && t.getShape() == shape;
+}
 
-    if (t.getColour() == colour && t.getShape() == shape) {
-        isMatch = true;
-    }
-
-    return isMatch;
+bool Tile::hasBlankValue() {
+    return colour == NO_COLOUR || shape == NO_SHAPE;
 }
