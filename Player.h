@@ -15,10 +15,11 @@ class Player {
         string getName();
         string getHand();
 
-        // methods to modify player hand
+        // methods to modify/access player hand
+        bool hasTile(Tile* t);
         bool removeFromHand(string t);
         bool removeFromHand(Tile* t);
-        void addToHand(Tile* t);
+        bool addToHand(Tile* t);
 
     private:
         string name;

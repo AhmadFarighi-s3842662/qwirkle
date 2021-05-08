@@ -95,9 +95,15 @@ void LinkedList::removeFront(){
       std::cout << "Cannot removeF: this list is empty!" << std::endl;
    }
    else{
+      Node* temp = head;
       head = head->next;
-      delete head->previous;
-      head->previous = nullptr;
+      if (head != nullptr) {head->previous = nullptr;}
+      delete temp;
+
+      // head = head->next;
+      // delete head->previous;
+      // head->previous = nullptr;      this is the line that causes seg fault
+      
       size--;
    }
 }

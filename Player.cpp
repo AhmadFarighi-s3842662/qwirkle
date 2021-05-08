@@ -3,6 +3,7 @@
 
 #define MAX_PLAYER_HAND_SIZE 6
 
+// Construct Player object with specified name and score of 0
 Player::Player(string n) 
     : name(n) {
         hand = new LinkedList();
@@ -31,6 +32,22 @@ string Player::getHand() {
     return hand->toString();
 }
 
+/*
+* checks if player's hand contains specified tile
+* returns false if tile does not exist in player hand
+*/
+bool Player::hasTile(Tile* t) {
+    bool tileExistence = false;
+    if (hand->contains(t)) {
+        tileExistence = true;
+    }
+    return tileExistence;
+}
+
+/* 
+* removes specified string representation of tile from player hand if it exists
+* returns false if tile does not exist in hand
+*/
 bool Player::removeFromHand(string s) {
     bool tileExistence = false;
     int index = -1;
@@ -48,21 +65,32 @@ bool Player::removeFromHand(string s) {
     return tileExistence;
 }
 
+/*
+* removes specified tile if it exists in player's hand
+* returns false if tile does not exist in hand
+*/
 bool Player::removeFromHand(Tile* t) {
-    bool tileExistence = false;
-    if (hand->contains(t)) {
-        tileExistence = true;
+    bool successful = false;
+    if (hasTile(t)) {
         int i = hand->findTileIndex(t);
+        std::cout << "removing " + t->toString() << " at index " << i << std::endl;
         hand->remove(i);
+        successful = true;
     }
-    return tileExistence;
+    return successful;
 }
 
-void Player::addToHand(Tile* t) {
-    // maybe this should also be a boolean? I left it as void because adding to playerhand should be handled by game logic
+/* 
+* adds to hand only if hand is not currently full (6 tile limit)
+* returns false on unsuccessful addition of specified tile
+*/
+bool Player::addToHand(Tile* t) {
+    bool successful = false;
     if (hand->getSize() < MAX_PLAYER_HAND_SIZE) {
         hand->addBack(t);
+        successful = true;
     }
+    return successful;
 }
 
 

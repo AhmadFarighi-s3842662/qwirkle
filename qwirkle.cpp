@@ -55,6 +55,14 @@ void testLinkedListFunction(){
    if (p->removeFromHand(t2)) {std::cout << "Double removal, incorrect" << std::endl;}
    p->removeFromHand("R1");
    std::cout << p->getHand() << std::endl;
+   if (p->hasTile(r1)) {std::cout << "Player p has R1" << std::endl;} else {std::cout << "Player p does not have R1" << std::endl;}
+   p->removeFromHand(r4);
+   p->removeFromHand(r2);
+   p->removeFromHand(r3);
+   std::cout << p->getHand() << std::endl;
+   p->removeFromHand(r6);
+   std::cout << "." << std::endl;
+   if (p->removeFromHand(r6)) {std::cout << "Double removal, incorrect" << std::endl;}
 
 
    delete r1;
