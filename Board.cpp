@@ -125,7 +125,7 @@ std::string Board::toString() {
     // Rows
     for (unsigned int i = 0; i < board.size(); ++i) {
         // Row label, represented as a letter
-        repr += (char) i + ASCII_VALUE_A;
+        repr += rowIndexToChar(i);
 
         // Pipe between the label and the grid
         repr += " |";
@@ -135,7 +135,7 @@ std::string Board::toString() {
             Tile* tile = board.at(i).at(j);
 
             // Append the tile only if one exists at that cell
-            if (!tile->hasBlankValue()) {
+            if (tile != nullptr && !tile->hasBlankValue()) {
                 repr += tile->toString();
             } else {
                 repr += "  ";
@@ -154,7 +154,30 @@ std::string Board::toString() {
 }
 
 std::string Board::serialise() {
-    return "";
+    std::string repr = "";
+    bool firstElement = true;
+
+    for (unsigned int row = 0; row < board.size(); ++row) {
+        for (unsigned int col = 0; col < board.at(row).size(); ++col) {
+            Tile* tile = board.at(row).at(col);
+
+            if (tile != nullptr && !tile->hasBlankValue()) {
+                // Precede all but the first tile with ", "
+                if (!firstElement) {
+                    repr += ", ";
+                } else {
+                    firstElement = false;
+                }
+
+                // Tile is stored in tile@position format
+                repr += tile->toString();
+                repr += "@";
+                repr += rowIndexToChar(row) + std::to_string(col);
+            }
+        }
+    }
+
+    return repr;
 }
 
 int Board::rowCharToIndex(char row) {
@@ -168,4 +191,8 @@ int Board::rowCharToIndex(char row) {
      * https://www.w3schools.com/charsets/ref_html_ascii.asp
      */ 
     return (int) row - ASCII_VALUE_A;
+}
+
+char Board::rowIndexToChar(int row) {
+    return (char) row + ASCII_VALUE_A;
 }
