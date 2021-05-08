@@ -1,4 +1,3 @@
-
 #include "LinkedList.h"
 
 #include <iostream>
@@ -6,8 +5,7 @@
 #include <string>
 #include <stdlib.h>
 
-#define EXIT_SUCCESS    0
-
+#define EXIT_SUCCESS 0
 
 using std::cout;
 using std::cin;
@@ -20,7 +18,9 @@ void startNewGame();
 bool loadGame();
 void showCredits();
 void terminateGame();
-// returns user input as std::string which can be parsed as int, where required, using string stream (as demonstrated in menu)
+
+// Returns user input as std::string which can be parsed as int, where required,
+// using string stream (as demonstrated in menu)
 string promptUser() {
    string input = "";
    cout << "> ";
@@ -28,10 +28,15 @@ string promptUser() {
    return input;
 }
 
-// maybe also have a method called like conductGame(Game* g) which takes in a game `state`/instance and conducts the gameplay loop
-// i.e startnewGame calls Game constructor and then calls conductGame() with the newly created Game object. 
-// loadGame reads file and instantiates Game object with the deserialized contents which is then passed to conductGame().
-
+/*
+ * maybe also have a method called like conductGame(Game* g) which takes in a
+ * game `state`/instance and conducts the gameplay loop i.e startnewGame calls
+ * Game constructor and then calls conductGame() with the newly created Game
+ * object.
+ * 
+ * loadGame reads file and instantiates Game object with the deserialized
+ * contents which is then passed to conductGame().
+ */
 void startNewGame() {
    cout << "Starting a New Game!" << endl;
 }
@@ -44,6 +49,7 @@ bool loadGame() {
 void terminationMessage() {
    cout << "Goodbye" << endl;
 }
+
 // bit ugly but who cares its just credits ¯\_(ツ)_/¯
 void showCredits() {
    cout << "-------------------------------------" << endl;
@@ -63,43 +69,54 @@ void showCredits() {
 
 int main(void) {
    cout << "Welcome to Quirkle!" << endl << "-------------------" << endl;
-   atexit (terminationMessage);
+   atexit(terminationMessage);
+
    bool shouldDisplayMenu = true;
    do {
       cout << "Menu" << endl << "----" << endl;
       cout << "1. New Game" << endl;
       cout << "2. Load Game" << endl;
       cout << "3. Credits (Show student information)" << endl;
-      cout << "4. Quit" << endl;
+      cout << "4. Quit" << endl << endl;
       
       istringstream iss (promptUser());
       int selection = 0;
       iss >> selection;
+
+      cout << endl;
+
       if (iss.fail()) {
          if (iss.eof()) {
             shouldDisplayMenu = false;
-         } else { cout << "Invalid Input. Please enter a number from 1-4." << endl;}
+         } else {
+            cout << "Invalid Input. Please enter a number from 1-4." << endl;
+         }
       } else {
          if (selection == 1) {
             startNewGame();
-            shouldDisplayMenu = false;       // assumes menu should not repeat after game is completed (incorrect assumption)
+
+            // assumes menu should not repeat after game is completed (incorrect
+            // assumption)
+            shouldDisplayMenu = false;       
          } else if (selection == 2) {
             loadGame();
-            shouldDisplayMenu = false;       // assumes menu should not repeat after game is completed (incorrect assumption)
+
+            // assumes menu should not repeat after game is completed (incorrect
+            // assumption)
+            shouldDisplayMenu = false;
          } else if (selection == 3) {
             showCredits();
          } else if (selection == 4) {
             shouldDisplayMenu = false;
          } else {
-            cout << "Sorry, that isn't an option. Please enter a number from 1-4" << endl;
+            cout << "Sorry, that isn't an option. Please enter a number from 1-4"
+                 << endl;
          }
       }
-   } while(shouldDisplayMenu);
+   } while (shouldDisplayMenu);
 
    LinkedList* list = new LinkedList();
    delete list;
-
-   std::cout << "TODO: Implement Qwirkle!" << std::endl;
 
    return EXIT_SUCCESS;
 }
