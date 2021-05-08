@@ -60,6 +60,8 @@ std::string LinkedList::toString()
    else{
       std::cout << "This list is empty!" << std::endl;
    }
+
+   return "TODO (LinkedList::toString())";
 }
 
 void LinkedList::addFront(Tile* tile){
