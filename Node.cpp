@@ -1,4 +1,3 @@
-
 #include "Node.h"
 
 Node::Node(Tile* pTile, Node* pPrevious, Node* pNext)
@@ -15,6 +14,7 @@ Node::Node(Node& other)
     next = other.next;
 }
 
-Node::~Node(){
+Node::~Node()
+{
     delete tile;
 }
