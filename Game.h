@@ -26,6 +26,12 @@ public:
     bool saveGame;
 
     void printGame();
+    Player* getPlayer1();
+    Player* getPlayer2();
+    Player* getCurrentPlayer();
+    void setCurrentPlayer(Player* playa);
+
+    Board* getBoard();
 };
 
 #endif // ASSIGN2_GAME_H

@@ -72,3 +72,25 @@ void Game::printGame()
     std::cout << "p1 hand: " << player1->getHand() << std::endl;
     std::cout << "p2 hand: " << player2->getHand() << std::endl;
 }
+
+Player* Game::getPlayer1()
+{
+    return player1;
+}
+Player* Game::getPlayer2()
+{
+    return player2;
+}
+Player* Game::getCurrentPlayer()
+{
+    return currentPlayer;
+}
+void Game::setCurrentPlayer(Player* playa)
+{
+    currentPlayer = playa;
+}
+
+Board* Game::getBoard()
+{
+    return board;
+}

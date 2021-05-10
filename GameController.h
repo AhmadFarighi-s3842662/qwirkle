@@ -13,6 +13,10 @@ public:
 
     string addPlayer(int x);
     void gameStart();
+    void gameLoop();
+
+    string askForPlayerMove();
+    void validateMoveInput(string input);
 
 };
 

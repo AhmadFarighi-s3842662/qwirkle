@@ -1,5 +1,6 @@
 #include "LinkedList.h"
 #include "Game.h"
+#include "GameController.h"
 
 #include <iostream>
 #include <sstream>
@@ -40,9 +41,13 @@ string promptUser() {
  */
 void startNewGame() {
    cout << "Starting a New Game!" << endl;
-   Game* newGame = new Game("Marx", "Lenin");
-   newGame->printGame();
-   delete newGame;
+   // Game* newGame = new Game("Marx", "Lenin");
+   // newGame->printGame();
+   // delete newGame;
+
+   GameController* theGame = new GameController();
+   theGame->gameStart();
+   theGame->gameLoop();
 }
 
 bool loadGame() {
