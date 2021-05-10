@@ -18,6 +18,8 @@ public:
     string askForPlayerMove();
     void validateMoveInput(string input);
 
+    void makeAMove(string tileSTR, string moveSTR);
+
 };
 
 #endif // ASSIGN2_NODE_H

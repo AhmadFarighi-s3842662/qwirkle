@@ -39,13 +39,24 @@ void GameController::gameStart(){
 }
 
 void GameController::gameLoop(){
-    cout << game->getBoard()->toString() << endl;
-    askForPlayerMove();
     // Print current state of the board
+    cout << game->getBoard()->toString() << endl;
+
     // Ask current player for thier move
+    askForPlayerMove();
+
     // perform move if valid, if not step back
+
     // check game status
 
+    // switch current player
+    if (game->getCurrentPlayer() == game->getPlayer1())
+    {
+        game->setCurrentPlayer(game->getPlayer2());
+    }
+    else {
+        game->setCurrentPlayer(game->getPlayer1());
+    }
 }
 
 string GameController::askForPlayerMove(){
@@ -60,4 +71,18 @@ string GameController::askForPlayerMove(){
 
 void GameController::validateMoveInput(string input){
     //uuuuuuuggggggghhhhhhhhhhhhhh
+}
+
+void GameController::makeAMove(string tileSTR, string moveSTR){
+
+    string tile = tileSTR;
+    game->getCurrentPlayer()->removeFromHand(tile);
+
+    string bodge = "" + moveSTR.at(1);
+    int col = std::stoi (bodge);
+
+    Tile* mTile = new Tile(tileSTR.at(0), tileSTR.at(1));
+    game->getBoard()->placeTile(*mTile,
+                                moveSTR.at(0),
+                                col);
 }
