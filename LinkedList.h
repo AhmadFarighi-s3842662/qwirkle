@@ -29,6 +29,8 @@ public:
     int findTileIndex(Tile* tile);
     int getSize();
 
+    bool findAndRemove(Tile* tile);
+
 private:
     Node* head;
     Node* tail;
