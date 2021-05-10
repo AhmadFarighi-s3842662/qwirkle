@@ -23,15 +23,19 @@ Game::Game(string p1, string p2)
         }
     }
     // shuffle the contents around
+    srand(time(NULL));
     for (size_t i = 0; i < 256; i++)
     {
-        int rando = rand() % 71;
-        tileBag->addFront(tileBag->get(rando));
-        tileBag->remove(rando+1);
+        int rando = rand() % 72;
+        Tile* temp = new Tile(*tileBag->get(rando));
+        tileBag->remove(rando);
+
+        tileBag->addFront(temp);
+        
     }
 
-    // Might aswell fill player hands too. Change the 5 to a const later
-    for (size_t i = 0; i < 5; i++)
+    // Might aswell fill player hands too. Change the 6 to a const later
+    for (size_t i = 0; i < 6; i++)
     {
         player1->addToHand(tileBag->getFront());
         tileBag->removeFront();
@@ -39,10 +43,6 @@ Game::Game(string p1, string p2)
         player2->addToHand(tileBag->getFront());
         tileBag->removeFront();
     }
-    // Debug prints, remove later.
-    std::cout << tileBag->toString() << std::endl;
-    std::cout << player1->getHand() << std::endl;
-    std::cout << player2->getHand() << std::endl;
 }
 
 Game::Game(Game& other)
@@ -62,4 +62,14 @@ Game::~Game()
     delete player2;
     // Do I need to make this check for nullptr first?
     delete currentPlayer;
+}
+
+void Game::printGame()
+{
+    // Debug prints, remove later.
+    std::cout << tileBag->getSize() << std::endl;
+    std::cout << tileBag->toString() << std::endl;
+
+    std::cout << "p1 hand: " << player1->getHand() << std::endl;
+    std::cout << "p2 hand: " << player2->getHand() << std::endl;
 }

@@ -25,6 +25,7 @@ public:
     bool replaceTile();
     bool saveGame;
 
+    void printGame();
 };
 
 #endif // ASSIGN2_GAME_H
