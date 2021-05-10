@@ -28,10 +28,8 @@ Game::Game(string p1, string p2)
     for (size_t i = 0; i < 256; i++)
     {
         int rando = rand() % 72;
-        Tile* temp = new Tile(*tileBag->get(rando));
-        tileBag->remove(rando);
-        tileBag->addFront(temp);
-        delete temp;
+        tileBag->addFront(tileBag->get(rando));
+        tileBag->remove(rando+1);
         
     }
 
