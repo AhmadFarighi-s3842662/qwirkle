@@ -20,6 +20,7 @@ Game::Game(string p1, string p2)
             // Will just call the add method twice instead of putting in a loop
             tileBag->addFront(tile);
             tileBag->addFront(tile);
+            delete tile;
         }
     }
     // shuffle the contents around
@@ -29,8 +30,8 @@ Game::Game(string p1, string p2)
         int rando = rand() % 72;
         Tile* temp = new Tile(*tileBag->get(rando));
         tileBag->remove(rando);
-
         tileBag->addFront(temp);
+        delete temp;
         
     }
 

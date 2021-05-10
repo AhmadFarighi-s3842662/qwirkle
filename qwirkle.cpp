@@ -42,6 +42,7 @@ void startNewGame() {
    cout << "Starting a New Game!" << endl;
    Game* newGame = new Game("Marx", "Lenin");
    newGame->printGame();
+   delete newGame;
 }
 
 bool loadGame() {
