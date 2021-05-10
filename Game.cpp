@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <iostream>
+
 Game::Game(string p1, string p2)
 {
     board = new Board;
@@ -27,6 +29,20 @@ Game::Game(string p1, string p2)
         tileBag->addFront(tileBag->get(rando));
         tileBag->remove(rando+1);
     }
+
+    // Might aswell fill player hands too. Change the 5 to a const later
+    for (size_t i = 0; i < 5; i++)
+    {
+        player1->addToHand(tileBag->getFront());
+        tileBag->removeFront();
+
+        player2->addToHand(tileBag->getFront());
+        tileBag->removeFront();
+    }
+    // Debug prints, remove later.
+    std::cout << tileBag->toString() << std::endl;
+    std::cout << player1->getHand() << std::endl;
+    std::cout << player2->getHand() << std::endl;
 }
 
 Game::Game(Game& other)
