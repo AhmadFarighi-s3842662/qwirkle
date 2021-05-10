@@ -41,11 +41,7 @@ string promptUser() {
  */
 void startNewGame() {
    cout << "Starting a New Game!" << endl;
-   // Game* newGame = new Game("Marx", "Lenin");
-   // newGame->printGame();
-   // delete newGame;
-
-   GameController* theGame = new GameController();
+   GameController* theGame = new GameController(2);
    theGame->gameStart();
    theGame->gameLoop();
 }
