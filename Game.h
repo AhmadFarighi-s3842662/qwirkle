@@ -4,6 +4,7 @@
 #include "Board.h"
 #include "LinkedList.h"
 #include "Player.h"
+#include "TileCodes.h"
 
 class Game
 {
