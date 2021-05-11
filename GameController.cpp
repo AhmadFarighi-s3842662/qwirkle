@@ -72,38 +72,36 @@ string GameController::askForPlayerMove(){
 }
 
 void GameController::validateMoveInput(string input){
-    char inputArray[8];
-    int successes = 0;
-    bool success = false;
-    int col = 0;
+    // This block borrowed and modified from: 
+    // https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
+    std::istringstream iss(input);
+    std::vector<std::string> results(std::istream_iterator<std::string>{iss},
+                                     std::istream_iterator<std::string>());
 
-    std::regex regexTileColor("[ROYGBP]");
-    std::regex regexTileShape("[1-6]");
+    //DEBUG PRINTS - REMOVE LATER
+    // for(int i=0; i < results.size(); i++)
+    //     std::cout << results.at(i) << ' ';
+    // std::cout << std::endl;
 
-    std::regex regex_space(" ");
-    std::regex regex_t("t");
-    std::regex regex_o("o");
-    
-    std::regex regexBoardRow("[A-Z]");
-
-    string col_str = input.substr(6,2);
-    col = std::stoi(col_str);
-    std::smatch m;
-    std::cmatch c;
-
-    // This is scuffed, but I think you can see my intention here.
-    // if (std::regex_search (input.at(0),c,regexTileColor)){
-    //     successes++;
-    // }
-
-    // if (std::regex_search (input.at(1),c,regexTileShape)){
-    //     successes++;
-    // }
-
-    // if (std::regex_search (input.at(2),c,regex_space)){
-    //     successes++;
-    // }
-    
+    if (validate_Place(input))
+    {
+        std::cout << "Hey that was a place!" << std::endl;
+    }
+    else if (validate_Replace(input))
+    {
+        std::cout << "Hey that was a replace!" << std::endl;
+    }
+    else if (results.at(0) == "save")
+    {
+        std::cout << "Hey that was a save!" << std::endl;
+    }
+    else if (results.at(0) == "quit")
+    {
+        std::cout << "Hey that was a quit!" << std::endl;
+    }
+    else {
+        std::cout << "bzzzt! wrong input!" << std::endl;
+    }
 }
 
 void GameController::makeAMove(string tileSTR, string moveSTR){
@@ -118,4 +116,22 @@ void GameController::makeAMove(string tileSTR, string moveSTR){
     game->getBoard()->placeTile(*mTile,
                                 moveSTR.at(0),
                                 col);
+}
+
+bool GameController::validate_Place(string input){
+    // regex expression for pattern to be searched 
+    std::regex regex("^place\s[ROYGBP][1-6]\sto\s[A-Z]\d+$");
+    // flag type for determining the matching behavior (in this case on string objects)
+    std::smatch m; 
+    // regex_search that searches pattern in the string
+    return std::regex_search(input, m, regex); 
+}
+
+bool GameController::validate_Replace(string input){
+    // regex expression for pattern to be searched 
+    std::regex regex("^replace\s[ROYGBP][1-6]$");
+    // flag type for determining the matching behavior (in this case on string objects)
+    std::smatch m; 
+    // regex_search that searches pattern in the string
+    return std::regex_search(input, m, regex); 
 }

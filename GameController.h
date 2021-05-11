@@ -21,6 +21,9 @@ public:
 
     void makeAMove(string tileSTR, string moveSTR);
 
+    bool validate_Place(string input);
+    bool validate_Replace(string input);
+
 };
 
 #endif // ASSIGN2_NODE_H
