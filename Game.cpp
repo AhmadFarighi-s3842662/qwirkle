@@ -62,10 +62,11 @@ Game::~Game()
 
 void Game::dealPlayerTiles()
 {
-    for(int i = 0; i<getPlayerCount(); i++){
+    for(int x = 0; x<getPlayerCount(); x++){
+        // Don't forget to get rid of this magic number later
         for (size_t i = 0; i < 6; i++)
         {
-            getPlayer(i)->addToHand(tileBag->getFront());
+            getPlayer(x)->addToHand(tileBag->getFront());
             tileBag->removeFront();
         }
     }
