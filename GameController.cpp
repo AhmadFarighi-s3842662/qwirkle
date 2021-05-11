@@ -130,9 +130,7 @@ void GameController::makeAMove(string tileSTR, string moveSTR){
     int shapeBodge = std::stoi (bodge2);
 
     Tile* mTile = new Tile(tileSTR.at(0), shapeBodge);
-    game->getBoard()->placeTile(*mTile,
-                                moveSTR.at(0),
-                                col);
+    game->placeTile(*mTile,moveSTR.at(0),col);
 }
 
 void GameController::replaceATile(string tileSTR){

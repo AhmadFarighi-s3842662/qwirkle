@@ -112,3 +112,62 @@ LinkedList* Game::getTileBag()
 {
     return tileBag;
 }
+bool Game::placeTile(Tile& tile, char row, int col){
+    bool inputValid = false;
+    bool nCheck = false;
+    bool eCheck = false;
+    bool sCheck = false;
+    bool wCheck = false;
+    bool vCheck = false;
+    bool hCheck = false;
+
+    //Check if theres already a tile in desired location
+    if(board->tileAt(row,col)==nullptr){
+        //Check if theres a tile to the north
+        if(board->tileAt(row-1,col)!=nullptr)
+            nCheck=true;
+        //Check if theres a tile to the east
+        if(board->tileAt(row,col+1)!=nullptr)
+            eCheck=true;
+        //Check if theres a tile to the south
+        if(board->tileAt(row+1,col)!=nullptr)
+            sCheck=true;
+        //Check if theres a tile to the west
+        if(board->tileAt(row,col-1)!=nullptr)
+            wCheck=true;
+
+        //Check if there are no neighbours
+        if(nCheck||eCheck||sCheck||wCheck){
+            //Check if tile fits within entire vertical line
+            if(nCheck||sCheck)
+                vCheck=validateTilesInDirection(tile,row,col,1,0);
+            //Check if tile fits within entire horizontal line
+            if(eCheck||wCheck)
+                hCheck=validateTilesInDirection(tile,row,col,0,1);
+        }
+    }
+
+    //If vertical line was attempted and failed, or horizontal line was attempted and failed skip marking validaiton as true
+    if(!(((nCheck||sCheck)&&vCheck==false)||((eCheck||wCheck)&&hCheck==false)))
+        inputValid = true;
+
+    return inputValid;
+}
+
+bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int moveX, int moveY){
+    //set result to true
+    //set similarAttribute to null
+    //While loop{}
+        //Check board at origin ++moveX,++moveY
+        //if similarAttribute condition is null, set one here
+        //if space matches established similarAttribute condition, continue loop
+        //if space is empty end loop
+        //if space fails to match established similarAttribute condition, end loop and set result to false
+    //While loop{}
+        //Check board at origin --moveX,--moveY
+        //if similarAttribute condition is null, set one here
+        //if space matches established similarAttribute condition, continue loop
+        //if space is empty end loop
+        //if space fails to match established similarAttribute condition, end loop and set result to false
+    //return result
+}
