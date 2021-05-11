@@ -20,6 +20,7 @@ public:
     void validateMoveInput(string input);
 
     void makeAMove(string tileSTR, string moveSTR);
+    void replaceATile(string tileSTR);
 
     bool validate_Place(string input);
     bool validate_Replace(string input);

@@ -62,7 +62,7 @@ void GameController::gameLoop(){
         game->setCurrentPlayer(game->getPlayer(0));
     }
 
-    cout << game->getBoard()->toString() << endl;
+    // cout << game->getBoard()->toString() << endl;
 }
 
 string GameController::askForPlayerMove(){
@@ -97,6 +97,7 @@ void GameController::validateMoveInput(string input){
     else if (validate_Replace(input))
     {
         std::cout << "Hey that was a replace!" << std::endl;
+        replaceATile(results.at(1));
     }
     else if (results.at(0) == "save")
     {
@@ -129,6 +130,17 @@ void GameController::makeAMove(string tileSTR, string moveSTR){
     game->getBoard()->placeTile(*mTile,
                                 moveSTR.at(0),
                                 col);
+}
+
+void GameController::replaceATile(string tileSTR){
+    std::cout << tileSTR << std::endl;
+
+    game->getCurrentPlayer()->removeFromHand(tileSTR);
+    game->getTileBag()->addBack(new Tile(tileSTR));
+    game->getCurrentPlayer()->addToHand(game->getTileBag()->getFront());
+    game->getTileBag()->removeFront();
+
+    std::cout << game->getCurrentPlayer()->getHand()->toString() << std::endl;
 }
 
 bool GameController::validate_Place(string input){
