@@ -103,8 +103,12 @@ void Game::setCurrentPlayer(Player* playa)
 {
     currentPlayer = playa;
 }
-
 Board* Game::getBoard()
 {
     return board;
+}
+
+LinkedList* Game::getTileBag()
+{
+    return tileBag;
 }

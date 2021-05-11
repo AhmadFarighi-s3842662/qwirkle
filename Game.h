@@ -34,6 +34,7 @@ public:
     void setCurrentPlayer(Player* playa);
 
     Board* getBoard();
+    LinkedList* getTileBag();
 };
 
 #endif // ASSIGN2_GAME_H
