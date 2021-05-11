@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <regex>
 
 using std::cout;
 using std::cin;
@@ -71,7 +72,38 @@ string GameController::askForPlayerMove(){
 }
 
 void GameController::validateMoveInput(string input){
-    //uuuuuuuggggggghhhhhhhhhhhhhh
+    char inputArray[8];
+    int successes = 0;
+    bool success = false;
+    int col = 0;
+
+    std::regex regexTileColor("[ROYGBP]");
+    std::regex regexTileShape("[1-6]");
+
+    std::regex regex_space(" ");
+    std::regex regex_t("t");
+    std::regex regex_o("o");
+    
+    std::regex regexBoardRow("[A-Z]");
+
+    string col_str = input.substr(6,2);
+    col = std::stoi(col_str);
+    std::smatch m;
+    std::cmatch c;
+
+    // This is scuffed, but I think you can see my intention here.
+    // if (std::regex_search (input.at(0),c,regexTileColor)){
+    //     successes++;
+    // }
+
+    // if (std::regex_search (input.at(1),c,regexTileShape)){
+    //     successes++;
+    // }
+
+    // if (std::regex_search (input.at(2),c,regex_space)){
+    //     successes++;
+    // }
+    
 }
 
 void GameController::makeAMove(string tileSTR, string moveSTR){
