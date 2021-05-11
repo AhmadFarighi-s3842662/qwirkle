@@ -69,7 +69,10 @@ string GameController::askForPlayerMove(){
     cout << "Current player: " << game->getCurrentPlayer()->getName() << endl
          << "Player's hand: " << game->getCurrentPlayer()->getHand()->toString() << endl;
     string input = "";
-    cout << "Move format \"place <TILE> to <LOCATION>\" Example: place R0 to A1" << endl;;
+    cout << "Move format example: place R0 to A1" << endl;;
+    cout << "Repalce tile example: replace R0" << endl;;
+    cout << "save" << endl;;
+    cout << "quit" << endl;;
     cout << "> ";
 
     std::getline(std::cin, input);
