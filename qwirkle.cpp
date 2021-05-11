@@ -26,7 +26,8 @@ void terminateGame();
 string promptUser() {
    string input = "";
    cout << "> ";
-   cin >> input;
+   // cin >> input;
+   std::getline(std::cin, input);
    return input;
 }
 
