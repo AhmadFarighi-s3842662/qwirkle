@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <iostream>
+#define ASCII_VALUE_A 65
 
 Game::Game(int playerCount)
 {
@@ -120,30 +121,31 @@ bool Game::placeTile(Tile& tile, char row, int col){
     bool wCheck = false;
     bool vCheck = false;
     bool hCheck = false;
+    int rowIndex = rowCharToIndex(row);    
 
     //Check if theres already a tile in desired location
     if(board->tileAt(row,col)==nullptr){
         //Check if theres a tile to the north
-        if(board->tileAt(row-1,col)!=nullptr)
+        if(board->tileAt(rowIndex-1,col)!=nullptr)
             nCheck=true;
         //Check if theres a tile to the east
-        if(board->tileAt(row,col+1)!=nullptr)
+        if(board->tileAt(rowIndex,col+1)!=nullptr)
             eCheck=true;
         //Check if theres a tile to the south
-        if(board->tileAt(row+1,col)!=nullptr)
+        if(board->tileAt(rowIndex+1,col)!=nullptr)
             sCheck=true;
         //Check if theres a tile to the west
-        if(board->tileAt(row,col-1)!=nullptr)
+        if(board->tileAt(rowIndex,col-1)!=nullptr)
             wCheck=true;
 
         //Check if there are no neighbours
         if(nCheck||eCheck||sCheck||wCheck){
             //Check if tile fits within entire vertical line
             if(nCheck||sCheck)
-                vCheck=validateTilesInDirection(tile,row,col,1,0);
+                vCheck=validateTilesInDirection(tile,rowIndex,col,1,0);
             //Check if tile fits within entire horizontal line
             if(eCheck||wCheck)
-                hCheck=validateTilesInDirection(tile,row,col,0,1);
+                hCheck=validateTilesInDirection(tile,rowIndex,col,0,1);
         }
     }
 
@@ -170,4 +172,17 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int mo
         //if space is empty end loop
         //if space fails to match established similarAttribute condition, end loop and set result to false
     //return result
+}
+
+int Game::rowCharToIndex(char row) {
+    row = std::toupper(row);
+
+    /*
+     * ASCII uppercase characters begin from 65, so subtracting 65 from the
+     * character's value produces the corresponding row index in the vector.
+     * 
+     * A useful table can be found here:
+     * https://www.w3schools.com/charsets/ref_html_ascii.asp
+     */ 
+    return (int) row - ASCII_VALUE_A;
 }

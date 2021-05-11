@@ -15,6 +15,7 @@ private:
     int pCount;
 
     Player* currentPlayer;
+    int rowCharToIndex(char row);
 
 public:
     Game(int playerCount);
