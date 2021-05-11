@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <limits>
 
 using std::cout;
 using std::cin;
@@ -31,7 +32,7 @@ void GameController::addPlayer() {
    string input = "";
    cout << "Player "<<game->getPlayerCount()+1<<" name: " << endl;;
    cout << "> ";
-   cin >> input;
+    std::getline(std::cin, input);
    game->addPlayer(new Player(input));
 }
 
@@ -70,6 +71,7 @@ string GameController::askForPlayerMove(){
     string input = "";
     cout << "Move format \"place <TILE> to <LOCATION>\" Example: place R0 to A1" << endl;;
     cout << "> ";
+
     std::getline(std::cin, input);
     cout << endl;
     return input;
@@ -111,14 +113,19 @@ void GameController::validateMoveInput(string input){
 }
 
 void GameController::makeAMove(string tileSTR, string moveSTR){
+    std::cout << tileSTR << std::endl;
+    std::cout << moveSTR << std::endl;
 
     string tile = tileSTR;
     game->getCurrentPlayer()->removeFromHand(tile);
 
-    string bodge = "" + moveSTR.at(1);
+    string bodge = moveSTR.substr(1,2);
     int col = std::stoi (bodge);
 
-    Tile* mTile = new Tile(tileSTR.at(0), tileSTR.at(1));
+    string bodge2 = tileSTR.substr(1,1);
+    int shapeBodge = std::stoi (bodge2);
+
+    Tile* mTile = new Tile(tileSTR.at(0), shapeBodge);
     game->getBoard()->placeTile(*mTile,
                                 moveSTR.at(0),
                                 col);
@@ -126,7 +133,7 @@ void GameController::makeAMove(string tileSTR, string moveSTR){
 
 bool GameController::validate_Place(string input){
     // regex expression for pattern to be searched 
-    std::regex regex("^place [ROYGBP][1-6] to [A-Z][1-9]{1,2}$");
+    std::regex regex("^place [ROYGBP][1-6] to [A-Z][0-9]{1,2}$");
     // flag type for determining the matching behavior (in this case on string objects)
     std::smatch m; 
     // regex_search that searches pattern in the string
