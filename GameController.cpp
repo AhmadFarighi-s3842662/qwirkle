@@ -45,7 +45,8 @@ void GameController::gameLoop(){
     cout << game->getBoard()->toString() << endl;
 
     // Ask current player for thier move
-    askForPlayerMove();
+    string input = askForPlayerMove();
+    validateMoveInput(input);
 
     // perform move if valid, if not step back
 
@@ -59,15 +60,18 @@ void GameController::gameLoop(){
     else {
         game->setCurrentPlayer(game->getPlayer(0));
     }
+
+    cout << game->getBoard()->toString() << endl;
 }
 
 string GameController::askForPlayerMove(){
     cout << "Current player: " << game->getCurrentPlayer()->getName() << endl
          << "Player's hand: " << game->getCurrentPlayer()->getHand()->toString() << endl;
     string input = "";
-    cout << "Move format \"<TILE> to <LOCATION>\" Example: R0 to A1" << endl;;
+    cout << "Move format \"place <TILE> to <LOCATION>\" Example: place R0 to A1" << endl;;
     cout << "> ";
-    cin >> input;
+    std::getline(std::cin, input);
+    cout << endl;
     return input;
 }
 
@@ -102,6 +106,7 @@ void GameController::validateMoveInput(string input){
     }
     else {
         std::cout << "bzzzt! wrong input!" << std::endl;
+        askForPlayerMove();
     }
 }
 
@@ -121,7 +126,7 @@ void GameController::makeAMove(string tileSTR, string moveSTR){
 
 bool GameController::validate_Place(string input){
     // regex expression for pattern to be searched 
-    std::regex regex("^place\\s[ROYGBP][1-6]\\sto\\s[A-Z]\\d+$");
+    std::regex regex("^place [ROYGBP][1-6] to [A-Z][1-9]{1,2}$");
     // flag type for determining the matching behavior (in this case on string objects)
     std::smatch m; 
     // regex_search that searches pattern in the string
@@ -130,7 +135,7 @@ bool GameController::validate_Place(string input){
 
 bool GameController::validate_Replace(string input){
     // regex expression for pattern to be searched 
-    std::regex regex("^replace\\s[ROYGBP][1-6]$");
+    std::regex regex("^replace [ROYGBP][1-6]$");
     // flag type for determining the matching behavior (in this case on string objects)
     std::smatch m; 
     // regex_search that searches pattern in the string
