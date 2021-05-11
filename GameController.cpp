@@ -86,6 +86,7 @@ void GameController::validateMoveInput(string input){
     if (validate_Place(input))
     {
         std::cout << "Hey that was a place!" << std::endl;
+        makeAMove(results.at(1), results.at(3));
     }
     else if (validate_Replace(input))
     {
@@ -120,7 +121,7 @@ void GameController::makeAMove(string tileSTR, string moveSTR){
 
 bool GameController::validate_Place(string input){
     // regex expression for pattern to be searched 
-    std::regex regex("^place\s[ROYGBP][1-6]\sto\s[A-Z]\d+$");
+    std::regex regex("^place\\s[ROYGBP][1-6]\\sto\\s[A-Z]\\d+$");
     // flag type for determining the matching behavior (in this case on string objects)
     std::smatch m; 
     // regex_search that searches pattern in the string
@@ -129,7 +130,7 @@ bool GameController::validate_Place(string input){
 
 bool GameController::validate_Replace(string input){
     // regex expression for pattern to be searched 
-    std::regex regex("^replace\s[ROYGBP][1-6]$");
+    std::regex regex("^replace\\s[ROYGBP][1-6]$");
     // flag type for determining the matching behavior (in this case on string objects)
     std::smatch m; 
     // regex_search that searches pattern in the string
