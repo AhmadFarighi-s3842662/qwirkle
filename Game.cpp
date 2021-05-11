@@ -14,7 +14,8 @@ Game::Game(int playerCount)
     char colorsArray[NUM_COLOURS] {RED,ORANGE,YELLOW,GREEN,BLUE,PURPLE};
     for (int colour = 0; colour < NUM_COLOURS; colour++)
     {
-        for (int shape = 0; shape < NUM_SHAPES; shape++)
+        // Forgot the offset as shapes go 1-6 not 0-5
+        for (int shape = 1; shape < NUM_SHAPES+1; shape++)
         {
             Tile* tile = new Tile(colorsArray[colour], shape);
             // Will just call the add method twice instead of putting in a loop
