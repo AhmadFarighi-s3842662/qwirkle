@@ -11,13 +11,13 @@ class Game
 private:
     Board* board;
     LinkedList* tileBag;
-    Player* player1;
-    Player* player2;
+    Player** players;
+    int pCount;
 
     Player* currentPlayer;
 
 public:
-    Game(string p1, string p2);
+    Game(int playerCount);
     Game(Game& other);
     ~Game();
 
@@ -25,9 +25,11 @@ public:
     bool replaceTile();
     bool saveGame;
 
+    int getPlayerCount();
+    void dealPlayerTiles();
+    void addPlayer(Player* newPlayer);
     void printGame();
-    Player* getPlayer1();
-    Player* getPlayer2();
+    Player* getPlayer(int i);
     Player* getCurrentPlayer();
     void setCurrentPlayer(Player* playa);
 

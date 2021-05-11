@@ -9,10 +9,13 @@ using std::endl;
 using std::string;
 using std::istringstream;
 
-GameController::GameController()
+GameController::GameController(int playerCount)
 {
-    // Starts with a nullptr, as it needs to get the player names input.
-    game = nullptr;
+    this->game = new Game(playerCount);
+    this->pCount = playerCount;
+    for (int i = 0;i<pCount;i++){
+        addPlayer();
+    }
 }
 
 GameController::~GameController()
@@ -23,19 +26,17 @@ GameController::~GameController()
     }
 }
 
-string GameController::addPlayer(int x) {
+void GameController::addPlayer() {
    string input = "";
-   cout << "Player "<<x<<" name: " << endl;;
+   cout << "Player "<<game->getPlayerCount()+1<<" name: " << endl;;
    cout << "> ";
    cin >> input;
-   return input;
+   game->addPlayer(new Player(input));
 }
 
 void GameController::gameStart(){
-    string p1 = addPlayer(1);
-    string p2 = addPlayer(2);
-    game = new Game(p1,p2);
-    game->setCurrentPlayer(game->getPlayer1());
+    game->dealPlayerTiles();
+    game->setCurrentPlayer(game->getPlayer(0));
 }
 
 void GameController::gameLoop(){
@@ -50,18 +51,18 @@ void GameController::gameLoop(){
     // check game status
 
     // switch current player
-    if (game->getCurrentPlayer() == game->getPlayer1())
+    if (game->getCurrentPlayer() == game->getPlayer(0))
     {
-        game->setCurrentPlayer(game->getPlayer2());
+        game->setCurrentPlayer(game->getPlayer(1));
     }
     else {
-        game->setCurrentPlayer(game->getPlayer1());
+        game->setCurrentPlayer(game->getPlayer(0));
     }
 }
 
 string GameController::askForPlayerMove(){
     cout << "Current player: " << game->getCurrentPlayer()->getName() << endl
-         << "Player's hand: " << game->getCurrentPlayer()->getHand() << endl;
+         << "Player's hand: " << game->getCurrentPlayer()->getHand()->toString() << endl;
     string input = "";
     cout << "Move format \"<TILE> to <LOCATION>\" Example: R0 to A1" << endl;;
     cout << "> ";

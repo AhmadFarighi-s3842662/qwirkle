@@ -7,11 +7,12 @@ class GameController
 {
 private:
     Game* game;
+    int pCount;
 public:
-    GameController(/* args */);
+    GameController(int playerCount);
     ~GameController();
 
-    string addPlayer(int x);
+    void addPlayer();
     void gameStart();
     void gameLoop();
 

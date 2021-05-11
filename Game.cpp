@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-Game::Game(string p1, string p2)
+Game::Game(int playerCount)
 {
-    board = new Board;
-    tileBag = new LinkedList;
-    player1 = new Player(p1);
-    player2 = new Player(p2);
-    currentPlayer = nullptr;
+    this->board = new Board;
+    this->tileBag = new LinkedList();
+    this->pCount = 0;
+    this->players = new Player*[playerCount]{};
+    this->currentPlayer = nullptr;
 
     // Filling the bag with 72 tiles, coloursArray should be GC'd after
     char colorsArray[NUM_COLOURS] {RED,ORANGE,YELLOW,GREEN,BLUE,PURPLE};
@@ -33,23 +33,16 @@ Game::Game(string p1, string p2)
         
     }
 
-    // Might aswell fill player hands too. Change the 6 to a const later
-    for (size_t i = 0; i < 6; i++)
-    {
-        player1->addToHand(tileBag->getFront());
-        tileBag->removeFront();
-
-        player2->addToHand(tileBag->getFront());
-        tileBag->removeFront();
-    }
 }
 
 Game::Game(Game& other)
 {
-    board = new Board(*other.board);
-    tileBag = new LinkedList(*other.tileBag);
-    player1 = new Player(*other.player1);
-    player2 = new Player(*other.player2);
+    this->board = new Board(*other.board);
+    this->tileBag = new LinkedList(*other.tileBag);
+    this->players = new Player*[other.pCount]{};
+    for (int i = 0;i<other.pCount;i++){
+        this->addPlayer(other.getPlayer(i));
+    }
     currentPlayer = new Player(*other.currentPlayer);
 }
 
@@ -57,10 +50,25 @@ Game::~Game()
 {
     delete board;
     delete tileBag;
-    delete player1;
-    delete player2;
-    // Do I need to make this check for nullptr first?
-    delete currentPlayer;
+    for (int i = 0;i<this->pCount;i++){
+        delete getPlayer(i);
+    }
+    delete players;
+    
+    if(currentPlayer == nullptr){
+        delete currentPlayer;
+    }
+}
+
+void Game::dealPlayerTiles()
+{
+    for(int i = 0; i<getPlayerCount(); i++){
+        for (size_t i = 0; i < 6; i++)
+        {
+            getPlayer(i)->addToHand(tileBag->getFront());
+            tileBag->removeFront();
+        }
+    }
 }
 
 void Game::printGame()
@@ -69,17 +77,21 @@ void Game::printGame()
     std::cout << tileBag->getSize() << std::endl;
     std::cout << tileBag->toString() << std::endl;
 
-    std::cout << "p1 hand: " << player1->getHand() << std::endl;
-    std::cout << "p2 hand: " << player2->getHand() << std::endl;
+    //std::cout << "p1 hand: " << player1->getHand() << std::endl;
+    //std::cout << "p2 hand: " << player2->getHand() << std::endl;
 }
 
-Player* Game::getPlayer1()
-{
-    return player1;
+void Game::addPlayer(Player* newPlayer){
+    Player* newP = new Player(*newPlayer);
+    this->players[this->getPlayerCount()]=newP;
+    this->pCount++;
 }
-Player* Game::getPlayer2()
+int Game::getPlayerCount(){
+    return this->pCount;
+}
+Player* Game::getPlayer(int i)
 {
-    return player2;
+    return players[i];
 }
 Player* Game::getCurrentPlayer()
 {
