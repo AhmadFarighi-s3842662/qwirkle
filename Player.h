@@ -21,6 +21,8 @@ public:
     bool removeFromHand(string t);
     bool removeFromHand(Tile* t);
     bool addToHand(Tile* t);
+    
+    string serialise();
 
 private:
     string name;
