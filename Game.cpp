@@ -182,7 +182,7 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int mo
             //If tiles share colour, set similar attribute to colour
             if (nextTile->getColour() == tile.getColour()){
                 similarAttributeType == "COLOUR";
-                similarColour == tile.getColour();
+                // similarColour == tile.getColour(); // TEMPORARY COMMENT --------------------------
             }
             //If tile is sharing shape and colour, its a duplicate and should be rejected,
             //otherwise if its only matching shape, set similar attribute to shape
@@ -207,6 +207,12 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int mo
         nextTile = board->tileAt(originX+moveX*multiplier,originY+moveY*multiplier);
     }
 
+    // TEMPORARY
+    similarShape++;
+    similarColour++;
+
+    // TEMPORARY
+    return result;
 }
 
 int Game::rowCharToIndex(char row) {

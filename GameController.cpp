@@ -102,7 +102,7 @@ void GameController::validateMoveInput(string input){
         std::cout << "Hey that was a replace!" << std::endl;
         replaceATile(results.at(1));
     }
-    else if (results.at(0) == "save")
+    else if (validate_save(input))
     {
         std::cout << "Hey that was a save!" << std::endl;
     }
@@ -160,4 +160,24 @@ bool GameController::validate_Replace(string input){
     std::smatch m; 
     // regex_search that searches pattern in the string
     return std::regex_search(input, m, regex); 
+}
+
+bool GameController::validate_save(string input) {
+    bool isValid = false;
+
+    // This block borrowed and modified from: 
+    // https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
+    std::istringstream iss(input);
+    std::vector<std::string> results(std::istream_iterator<std::string>{iss},
+                                     std::istream_iterator<std::string>());
+    
+    // End derived block
+
+    if (results.size() == 2 && results.at(0) == "save") {
+        // Whether the filename argument can be used or not will be determined
+        // by the Game class
+        isValid = true;
+    }
+
+    return isValid;
 }
