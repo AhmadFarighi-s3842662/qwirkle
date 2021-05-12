@@ -72,14 +72,6 @@ int main(void) {
    cout << "Welcome to Quirkle!" << endl << "-------------------" << endl;
    atexit(terminationMessage);
 
-   Player* p = new Player("bob");
-   p->setScore(5);
-   for (int i = 0; i <= 6; ++i) {
-      p->addToHand(new Tile('R', 1));
-   }
-   cout << p->serialise() << endl;
-   delete p;
-   
    bool shouldDisplayMenu = true;
    do {
       cout << "Menu" << endl << "----" << endl;
