@@ -120,7 +120,9 @@ bool Game::placeTile(Tile& tile, char row, int col){
     bool sCheck = false;
     bool wCheck = false;
     bool vCheck = false;
+    bool invCheck = false;
     bool hCheck = false;
+    bool inhCheck = false;
     int rowIndex = rowCharToIndex(row);    
 
     //Check if theres already a tile in desired location
@@ -141,37 +143,70 @@ bool Game::placeTile(Tile& tile, char row, int col){
         //Check if there are no neighbours
         if(nCheck||eCheck||sCheck||wCheck){
             //Check if tile fits within entire vertical line
-            if(nCheck||sCheck)
+            if(nCheck||sCheck){
                 vCheck=validateTilesInDirection(tile,rowIndex,col,1,0);
+                invCheck=validateTilesInDirection(tile,rowIndex,col,-1,0);
+            }
+                
             //Check if tile fits within entire horizontal line
-            if(eCheck||wCheck)
+            if(eCheck||wCheck){
                 hCheck=validateTilesInDirection(tile,rowIndex,col,0,1);
+                inhCheck=validateTilesInDirection(tile,rowIndex,col,0,-1);
+            }
         }
     }
 
     //If vertical line was attempted and failed, or horizontal line was attempted and failed skip marking validaiton as true
-    if(!(((nCheck||sCheck)&&vCheck==false)||((eCheck||wCheck)&&hCheck==false)))
+    if(!(((nCheck||sCheck)&&(vCheck&&invCheck))||((eCheck||wCheck)&&(hCheck&&inhCheck))))
         inputValid = true;
+
+    if(inputValid)
+        inputValid = board->placeTile(tile,row,col);
 
     return inputValid;
 }
 
 bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int moveX, int moveY){
     //set result to true
+    bool result = true;
     //set similarAttribute to null
-    //While loop{}
-        //Check board at origin ++moveX,++moveY
+    string similarAttributeType = "";
+    Colour similarColour = 'X';
+    Shape similarShape = 0;
+    int multiplier = 1;
+    Tile* nextTile = board->tileAt(originX+moveX*multiplier,originY+moveY*multiplier);
+    
+    while(result && nextTile!=nullptr){ 
         //if similarAttribute condition is null, set one here
-        //if space matches established similarAttribute condition, continue loop
-        //if space is empty end loop
-        //if space fails to match established similarAttribute condition, end loop and set result to false
-    //While loop{}
-        //Check board at origin --moveX,--moveY
-        //if similarAttribute condition is null, set one here
-        //if space matches established similarAttribute condition, continue loop
-        //if space is empty end loop
-        //if space fails to match established similarAttribute condition, end loop and set result to false
-    //return result
+        if (similarAttributeType == ""){
+            //If tiles share colour, set similar attribute to colour
+            if (nextTile->getColour() == tile.getColour()){
+                similarAttributeType == "COLOUR";
+                similarColour == tile.getColour();
+            }
+            //If tile is sharing shape and colour, its a duplicate and should be rejected,
+            //otherwise if its only matching shape, set similar attribute to shape
+            if(nextTile->getShape() == tile.getShape()){
+                similarAttributeType = (similarAttributeType == "COLOUR") ? "" : "SHAPE";
+                similarShape = (similarAttributeType == "SHAPE") ? tile.getShape() : 0;
+            }
+        }
+        //If similarAttribute is still empty, tile does not match required conditions
+        if(similarAttributeType == ""){
+            result = false;
+        }else{
+            //If tiles share the same colour, check that shape is different
+            if(similarAttributeType == "COLOUR")
+                result = (nextTile->getShape()!=tile.getShape()) ? true : false;
+            //If tiles share the same shape, check that colour is different
+            if(similarAttributeType == "SHAPE")
+                result = (nextTile->getColour()!=tile.getColour()) ? true : false;
+        }
+        //Move to next tile
+        multiplier += 1;
+        nextTile = board->tileAt(originX+moveX*multiplier,originY+moveY*multiplier);
+    }
+
 }
 
 int Game::rowCharToIndex(char row) {
