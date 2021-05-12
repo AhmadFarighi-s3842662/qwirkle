@@ -5,3 +5,5 @@
 # Ignore executable
 qwirkle
 valgrind-out.txt
+methodPrototyping
+methodPrototyping.cpp

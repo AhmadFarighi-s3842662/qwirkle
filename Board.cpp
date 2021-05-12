@@ -72,6 +72,25 @@ Tile* Board::tileAt(char row, int col) {
     return returnPointer;
 }
 
+Tile* Board::tileAt(int row, int col) {
+    Tile* returnPointer = nullptr;
+    Tile* boardPos = nullptr;
+
+    try {
+        boardPos = board.at(row).at(col);
+
+        // returnPointer stays as null if there is no tile at this position
+        if (!boardPos->hasBlankValue()) {
+            returnPointer = new Tile(*boardPos);
+        }
+    } catch (std::out_of_range& e) {
+        // returnPointer is already set to nullptr, so no need to do anything
+        // here
+    }  
+
+    return returnPointer;
+}
+
 bool Board::placeTile(Tile& tile, char row, int col) {
     bool tilePlaced = false;
     Tile* boardPos = nullptr;

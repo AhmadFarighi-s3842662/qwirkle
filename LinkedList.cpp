@@ -242,3 +242,15 @@ int LinkedList::findTileIndex(Tile* tile) {
 int LinkedList::getSize() {
     return size;
 }
+
+bool LinkedList::findAndRemove(Tile* pTile){
+    bool success;
+    if (contains(pTile)){
+        remove(findTileIndex(pTile));
+        success = true;
+    }
+    else{
+        success = false;
+    }
+    return success;
+}
