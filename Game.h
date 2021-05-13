@@ -25,7 +25,7 @@ public:
     bool placeTile();
     bool placeTile(Tile& tile, char row, int col);
     bool replaceTile();
-    bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int moveX, int moveY);
+    bool validateTilesInDirection(Tile& tile, int originX, int originY, int moveX, int moveY);
     bool saveGame;
 
     int getPlayerCount();

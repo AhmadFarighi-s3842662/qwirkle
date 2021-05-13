@@ -19,6 +19,16 @@ Board::Board() {
 
         board.push_back(tileRow);
     }
+    Colour c = 'P';
+    Shape s = 5;
+    Tile* starterTile = new Tile(c,s);
+    placeTile(*starterTile,'Y',1);
+    delete starterTile;
+    c = 'P';
+    s = 6;
+    starterTile = new Tile(c,s);
+    placeTile(*starterTile,'Y',2);
+    delete starterTile;
 }
 
 Board::Board(Board& other) {

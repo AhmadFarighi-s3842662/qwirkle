@@ -42,27 +42,32 @@ void GameController::gameStart(){
 }
 
 void GameController::gameLoop(){
-    // Print current state of the board
-    cout << game->getBoard()->toString() << endl;
 
-    // Ask current player for thier move
-    string input = askForPlayerMove();
-    validateMoveInput(input);
+    for(int i = 0; i<5; i++){
+                // Print current state of the board
+        cout << game->getBoard()->toString() << endl;
 
-    // perform move if valid, if not step back
+        // Ask current player for thier move
+        string input = askForPlayerMove();
+        validateMoveInput(input);
+        
 
-    // check game status
+        // perform move if valid, if not step back
 
-    // switch current player
-    if (game->getCurrentPlayer() == game->getPlayer(0))
-    {
-        game->setCurrentPlayer(game->getPlayer(1));
+        // check game status
+
+        // switch current player
+        if (game->getCurrentPlayer() == game->getPlayer(0))
+        {
+            game->setCurrentPlayer(game->getPlayer(1));
+        }
+        else {
+            game->setCurrentPlayer(game->getPlayer(0));
+        }
+
+        // cout << game->getBoard()->toString() << endl;
     }
-    else {
-        game->setCurrentPlayer(game->getPlayer(0));
-    }
 
-    // cout << game->getBoard()->toString() << endl;
 }
 
 string GameController::askForPlayerMove(){
