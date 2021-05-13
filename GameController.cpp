@@ -108,7 +108,7 @@ void GameController::validateMoveInput(string input){
         // TODO extract filename from input and pass it along
         game->saveGame("");
     }
-    else if (results.at(0) == "quit")
+    else if (results.size() > 0 && results.at(0) == "quit")
     {
         std::cout << "Hey that was a quit!" << std::endl;
     }
@@ -165,5 +165,11 @@ bool GameController::validate_Replace(string input){
 }
 
 bool GameController::validate_save(std::vector<std::string>& input) {
-    return input.size() == 2 && input.at(0) == "save";
+    bool isValid = false;
+
+    if (input.size() > 0) {
+        isValid = input.size() == 2 && input.at(0) == "save";
+    }
+
+    return isValid;
 }
