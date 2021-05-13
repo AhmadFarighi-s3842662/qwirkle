@@ -25,7 +25,13 @@ public:
     bool placeTile();
     bool placeTile(Tile& tile, char row, int col);
     bool replaceTile();
-    bool validateTilesInDirection(Tile& tile, int originX, int originY, int moveX, int moveY);
+    bool validateTilesInDirection(Tile& tile, int originX, int originY,
+                                  int moveX, int moveY);
+
+    // Attempts to save the game to a file with the given name. Returns true
+    // if successful.
+    //
+    // Ends the file with a newline and overwrites the file if it exists.
     bool saveGame(std::string filename);
 
     int getPlayerCount();
