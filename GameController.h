@@ -24,7 +24,7 @@ public:
 
     bool validate_Place(string input);
     bool validate_Replace(string input);
-    bool validate_save(string input);
+    bool validate_save(std::vector<std::string>& input);
 
 };
 
