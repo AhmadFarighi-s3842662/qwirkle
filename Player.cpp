@@ -95,3 +95,10 @@ bool Player::addToHand(Tile* t) {
 
     return successful;
 }
+
+string Player::serialise() {
+    string str = name + "\n";
+    str += std::to_string(score) + "\n";
+    str+= hand->toString() + "\n";
+    return str;
+}
