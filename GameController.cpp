@@ -104,9 +104,15 @@ void GameController::validateMoveInput(string input){
     }
     else if (validate_save(results))
     {
-        std::cout << "Hey that was a save!" << std::endl;
-        // TODO extract filename from input and pass it along
-        game->saveGame("");
+        // Because validate_save() is true, we know there is a second token 
+        std::string filename = results.at(1);
+
+        if (game->saveGame(filename)) {
+            std::cout << "Game successfully saved" << std::endl;
+        } else {
+            std::cout << "Sorry, there was an error while saving the game"
+                      << std::endl;
+        }
     }
     else if (results.size() > 0 && results.at(0) == "quit")
     {

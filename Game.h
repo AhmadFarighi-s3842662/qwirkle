@@ -26,7 +26,7 @@ public:
     bool placeTile(Tile& tile, char row, int col);
     bool replaceTile();
     bool validateTilesInDirection(Tile& tile, int originX, int originY, int moveX, int moveY);
-    bool saveGame;
+    bool saveGame(std::string filename);
 
     int getPlayerCount();
     void dealPlayerTiles();

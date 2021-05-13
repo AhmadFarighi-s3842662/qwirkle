@@ -60,11 +60,8 @@ std::string LinkedList::toString() {
 
             n = n->next;
         }
-
-        str + "/n";
-    } else {
-        std::cout << "This list is empty!" << std::endl;
     }
+    
     return str;
 }
 

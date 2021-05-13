@@ -1,6 +1,8 @@
+#include <fstream>
+#include <iostream>
+
 #include "Game.h"
 
-#include <iostream>
 #define ASCII_VALUE_A 65
 
 Game::Game(int playerCount)
@@ -214,6 +216,45 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int mo
     // TEMPORARY
     return result;
 }
+
+bool Game::saveGame(std::string filename) {
+    bool isSaved = false;
+
+    try {
+        std::ofstream outFile;
+        outFile.open(filename);
+
+        // Write players
+        for (int i = 0; i < pCount; ++i) {
+            outFile << players[i]->serialise();
+        }
+
+        // Write board shape
+        outFile << std::to_string(board->getHeight()) << ","
+                << std::to_string(board->getWidth()) << std::endl;
+
+        // Write board state
+        outFile << board->serialise() << std::endl;
+
+        // Write tile bag
+        outFile << tileBag->toString() << std::endl;
+
+        // Write current player
+        if (currentPlayer != nullptr) {
+            outFile << currentPlayer->getName();
+        }
+
+        outFile << std::endl;
+        outFile.close();
+
+        isSaved = true;
+    } catch (...) {
+        // Something went wrong, isSaved remains false
+    }
+
+    return isSaved;
+}
+
 
 int Game::rowCharToIndex(char row) {
     row = std::toupper(row);
