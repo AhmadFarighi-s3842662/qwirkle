@@ -25,8 +25,6 @@ public:
     
     string serialise();
 
-    string serialise();
-
 private:
     string name;
     int score;
