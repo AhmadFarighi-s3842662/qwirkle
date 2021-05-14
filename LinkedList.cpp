@@ -60,11 +60,8 @@ std::string LinkedList::toString() {
 
             n = n->next;
         }
-
-        str + "/n";
-    } else {
-        std::cout << "This list is empty!" << std::endl;
     }
+    
     return str;
 }
 
@@ -127,21 +124,20 @@ void LinkedList::remove(int index) {
     } else {
         if (index == 0) {
             removeFront();
-        } else if (index == size) {
+        } else if (index == size-1) {
             removeBack();
         } else {
-            Node* n = head;
+            Node* del = head;
             int counter = 0;
 
-            while (n != nullptr && counter < index) {
-                n = n->next;
+            while (del != nullptr && counter < index) {
+                del = del->next;
                 counter++;
             }
 
-            n->previous->next = n->next;
-            n->next->previous = n->previous;
-            delete n;
-
+            del->previous->next = del->next;
+            del->next->previous = del->previous;
+            delete del;
             size--;
         }
     }
@@ -242,4 +238,16 @@ int LinkedList::findTileIndex(Tile* tile) {
 
 int LinkedList::getSize() {
     return size;
+}
+
+bool LinkedList::findAndRemove(Tile* pTile){
+    bool success;
+    if (contains(pTile)){
+        remove(findTileIndex(pTile));
+        success = true;
+    }
+    else{
+        success = false;
+    }
+    return success;
 }

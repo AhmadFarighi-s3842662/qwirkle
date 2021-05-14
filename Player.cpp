@@ -14,6 +14,12 @@ Player::~Player() {
     delete hand;
 }
 
+Player::Player(Player& other) {
+    name = other.getName();
+    score = other.getScore();
+    hand = new LinkedList(*other.getHand());
+}
+
 string Player::getName() {
     return name;
 }
@@ -26,8 +32,8 @@ void Player::setScore(int s) {
     score = s;
 }
 
-string Player::getHand() {
-    return hand->toString();
+LinkedList* Player::getHand() {
+    return hand;
 }
 
 /*

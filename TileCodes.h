@@ -11,6 +11,8 @@
 #define PURPLE    'P'
 #define NO_COLOUR 'X'
 
+#define NUM_COLOURS 6
+
 // Shapes
 #define CIRCLE    1
 #define STAR_4    2
@@ -19,5 +21,7 @@
 #define STAR_6    5
 #define CLOVER    6
 #define NO_SHAPE  0
+
+#define NUM_SHAPES 6
 
 #endif // ASSIGN1_TILECODES_H

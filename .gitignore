@@ -4,4 +4,9 @@
 
 # Ignore executable
 qwirkle
+
+# Testing files
 valgrind-out.txt
+methodPrototyping
+methodPrototyping.cpp
+testgame*
