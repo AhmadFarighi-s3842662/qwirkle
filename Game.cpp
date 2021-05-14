@@ -25,7 +25,7 @@ Game::Game(int playerCount)
             delete tile;
         }
     }
-    /*
+    
     // shuffle the contents around
     srand(time(NULL));
     for (size_t i = 0; i < 256; i++)
@@ -35,7 +35,7 @@ Game::Game(int playerCount)
         tileBag->remove(rando+1);
         
     }
-    */
+    
 
 }
 
@@ -158,23 +158,18 @@ bool Game::placeTile(Tile& tile, char row, int col){
         }
     }
 
-    std::cout << "ncheck: " << nCheck << std::endl;
-    std::cout << "echeck: " << eCheck << std::endl; 
-    std::cout << "scheck: " << sCheck << std::endl; 
-    std::cout << "wcheck: " << wCheck << std::endl; 
-    std::cout << "vcheck: " << vCheck << std::endl;
-    std::cout << "invcheck: " << invCheck << std::endl;
-    std::cout << "hcheck: " << hCheck << std::endl;
-    std::cout << "inhcheck: " << inhCheck << std::endl; 
     //If vertical line was attempted and failed, or horizontal line was attempted and failed skip marking validaiton as true
     if(((nCheck||sCheck)&&(vCheck&&invCheck))||((eCheck||wCheck)&&(hCheck&&inhCheck))){ 
         inputValid = true;
     }
         
 
-    if(inputValid)
+    if(inputValid){
         inputValid = board->placeTile(tile,row,col);
-
+        currentPlayer->setScore(currentPlayer->getScore()+scoreTile(tile,rowIndex,col));
+        std::cout << "Player score adjusted by: " << scoreTile(tile,rowIndex,col) << std::endl; 
+        std::cout << "new Player score is: " << currentPlayer->getScore() << std::endl; 
+    }
     return inputValid;
 }
 
@@ -183,33 +178,24 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int mo
     bool result = true;
     //set similarAttribute to null
     string similarAttributeType = "";
-    //Colour similarColour = 'X';
-    //Shape similarShape = 0;
     int multiplier = 1;
     Tile* nextTile = board->tileAt(originX+moveX*multiplier,originY+moveY*multiplier);
     
     while(result && nextTile!=nullptr){
-        std::cout << "lineCheck entered, nextTile exists" << std::endl; 
         //if similarAttribute condition is null, set one here
         if (similarAttributeType == ""){
             //If tiles share colour, set similar attribute to colour
             if (nextTile->getColour() == tile.getColour()){
                 similarAttributeType = "COLOUR";
-                //similarColour == tile.getColour();
             }
             //If tile is sharing shape and colour, its a duplicate and should be rejected,
             //otherwise if its only matching shape, set similar attribute to shape
             if(nextTile->getShape() == tile.getShape()){
-                std::cout << "shape matches" << std::endl; 
-                std::cout << "similar attribute is currently " << similarAttributeType << std::endl;
                 similarAttributeType = (similarAttributeType != "") ? "" : "";
-                //similarShape = (similarAttributeType == "SHAPE") ? tile.getShape() : 0;
             }
         }
-        std::cout << "similar attribute is currently " << similarAttributeType << std::endl;
         //If similarAttribute is still empty, tile does not match required conditions
         if(similarAttributeType == ""){
-            std::cout << "That was a DUPLICATE TILE" << std::endl;
             result = false;
         }else{
             //If tiles share the same colour, check that shape is different
@@ -225,10 +211,77 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int mo
         }
         
     }
+    //Check if no tiles where found in set direction
     if (nextTile == nullptr){
         result = true;
     }
     return result;
+}
+
+int Game::scoreTile(Tile& tile, int row, int col){
+    int score = 0;
+    int multiplier = 1;
+    Tile* nextTile = board->tileAt(row+multiplier,col);
+    int tileCount = 1;
+
+    //Check number of tiles in +ve row direction
+    while(nextTile!=nullptr){
+        tileCount+=1;
+        multiplier+=1;
+        nextTile = board->tileAt(row+multiplier,col);
+    }
+
+    //Check number of tiles in -ve row direction
+    multiplier = 1;
+    nextTile = board->tileAt(row-multiplier,col);
+    while(nextTile!=nullptr){
+        tileCount+=1;
+        multiplier+=1;
+        nextTile = board->tileAt(row-multiplier,col);
+    }
+
+    //If tile was found to be within a row score accordingly
+    if (tileCount>1){
+        score += tileCount;
+        //Apply bonus score if quirkle
+        if(tileCount>=NUM_COLOURS){
+            std::cout << "QWIRKLE!!!" << std::endl;
+            score+=NUM_COLOURS;
+        }
+        
+    }
+
+    //Check number of tiles in +ve column direction
+    tileCount = 1;
+    multiplier = 1;
+    nextTile = board->tileAt(row,col+multiplier);
+    while(nextTile!=nullptr){
+        tileCount+=1;
+        multiplier+=1;
+        nextTile = board->tileAt(row,col+multiplier);
+    }
+
+    //Check number of tiles in -ve column direction
+    multiplier = 1;
+    nextTile = board->tileAt(row,col-multiplier);
+    while(nextTile!=nullptr){
+        tileCount+=1;
+        multiplier+=1;
+        nextTile = board->tileAt(row,col-multiplier);
+    }
+
+    //If tile was found to be within a row score accordingly
+    if (tileCount>1){
+        score += tileCount;
+        //Apply bonus score if quirkle
+        if(tileCount>=NUM_COLOURS){
+            std::cout << "QWIRKLE!!!" << std::endl;
+            score+=NUM_COLOURS;
+        }
+        
+    }
+
+    return score;
 }
 
 int Game::rowCharToIndex(char row) {
