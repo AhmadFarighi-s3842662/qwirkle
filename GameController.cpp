@@ -43,7 +43,7 @@ void GameController::gameStart(){
 
 void GameController::gameLoop(){
 
-    for(int i = 0; i<5; i++){
+    for(int i = 0; i<20; i++){
                 // Print current state of the board
         cout << game->getBoard()->toString() << endl;
 

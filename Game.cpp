@@ -10,6 +10,7 @@ Game::Game(int playerCount)
     this->pCount = 0;
     this->players = new Player*[playerCount]{};
     this->currentPlayer = nullptr;
+    this->turnCount = 0;
 
     // Filling the bag with 72 tiles, coloursArray should be GC'd after
     char colorsArray[NUM_COLOURS] {RED,ORANGE,YELLOW,GREEN,BLUE,PURPLE};
@@ -115,6 +116,10 @@ LinkedList* Game::getTileBag()
 {
     return tileBag;
 }
+bool Game::replaceTile(){
+    turnCount+=1;
+    return false;
+}
 bool Game::placeTile(Tile& tile, char row, int col){
     bool inputValid = false;
     bool nCheck = false;
@@ -157,18 +162,18 @@ bool Game::placeTile(Tile& tile, char row, int col){
             }
         }
     }
-
     //If vertical line was attempted and failed, or horizontal line was attempted and failed skip marking validaiton as true
     if(((nCheck||sCheck)&&(vCheck&&invCheck))||((eCheck||wCheck)&&(hCheck&&inhCheck))){ 
         inputValid = true;
     }
-        
+    if(((nCheck||sCheck)&&!(vCheck&&invCheck))||((eCheck||wCheck)&&!(hCheck&&inhCheck))){
+        inputValid = false;
+    } 
 
-    if(inputValid){
+    if(inputValid||turnCount<1){
         inputValid = board->placeTile(tile,row,col);
         currentPlayer->setScore(currentPlayer->getScore()+scoreTile(tile,rowIndex,col));
-        std::cout << "Player score adjusted by: " << scoreTile(tile,rowIndex,col) << std::endl; 
-        std::cout << "new Player score is: " << currentPlayer->getScore() << std::endl; 
+        turnCount+=1;
     }
     return inputValid;
 }
@@ -191,7 +196,7 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int mo
             //If tile is sharing shape and colour, its a duplicate and should be rejected,
             //otherwise if its only matching shape, set similar attribute to shape
             if(nextTile->getShape() == tile.getShape()){
-                similarAttributeType = (similarAttributeType != "") ? "" : "";
+                similarAttributeType = (similarAttributeType != "") ? "" : "SHAPE";
             }
         }
         //If similarAttribute is still empty, tile does not match required conditions
@@ -199,11 +204,14 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int mo
             result = false;
         }else{
             //If tiles share the same colour, check that shape is different
-            if(similarAttributeType == "COLOUR")
-                result = (nextTile->getShape()!=tile.getShape()) ? true : false;
+            if(similarAttributeType == "COLOUR"){
+                result = (nextTile->getShape()!=tile.getShape()&&nextTile->getColour()==tile.getColour()) ? true : false;
+            }
+                
             //If tiles share the same shape, check that colour is different
-            if(similarAttributeType == "SHAPE")
-                result = (nextTile->getColour()!=tile.getColour()) ? true : false;
+            if(similarAttributeType == "SHAPE"){
+                result = (nextTile->getColour()!=tile.getColour()&&nextTile->getShape()==tile.getShape()) ? true : false;
+            }   
 
             //Move to next tile
             multiplier += 1;
@@ -212,7 +220,7 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int mo
         
     }
     //Check if no tiles where found in set direction
-    if (nextTile == nullptr){
+    if (multiplier == 1&&nextTile==nullptr){
         result = true;
     }
     return result;

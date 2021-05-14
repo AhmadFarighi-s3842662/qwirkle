@@ -13,6 +13,7 @@ private:
     LinkedList* tileBag;
     Player** players;
     int pCount;
+    int turnCount;
 
     Player* currentPlayer;
     int rowCharToIndex(char row);
