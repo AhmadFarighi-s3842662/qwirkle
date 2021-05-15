@@ -44,12 +44,14 @@ void GameController::gameLoop() {
     {
         bool moveSuccess = false;
         // Print current state of the board
-        // cout << game->getBoard()->toString() << endl;
+        cout << game->getBoard()->toString() << endl;
 
         // Ask current player for thier move
         string input = askForPlayerMove();
+        
+        // Perform move if valid, if not loop will run again without changing
+        // player
         moveSuccess = validateMoveInput(input);
-        // perform move if valid, if not step back
 
         // switch current player if move was a success
         if (moveSuccess == true)
@@ -83,7 +85,6 @@ string GameController::askForPlayerMove() {
     return input;
 }
 
-// Need to update this to return a bool
 bool GameController::validateMoveInput(string input) {
     bool moveSuccess = false;
 
@@ -93,11 +94,6 @@ bool GameController::validateMoveInput(string input) {
     std::vector<std::string> results(std::istream_iterator<std::string>{iss},
                                      std::istream_iterator<std::string>());
     // End derived block
-
-    //DEBUG PRINTS - REMOVE LATER
-    // for(int i=0; i < results.size(); i++)
-    //     std::cout << results.at(i) << ' ';
-    // std::cout << std::endl;
 
     if (validate_Place(input)) {
         // Valid place command given
@@ -125,31 +121,47 @@ bool GameController::validateMoveInput(string input) {
         keepGoing = false;
     } else {
         // Invalid command given
-        std::cout << "bzzzt! wrong input!" << std::endl;
+        std::cout << "Invalid input" << std::endl;
     }
 
     return moveSuccess;
 }
-// Need to update this to return a bool
-bool GameController::makeAMove(string tileSTR, string moveSTR) {
-    bool success = false;
 
+
+bool GameController::makeAMove(string tileSTR, string moveSTR) {
     // DEBUG
     std::cout << tileSTR << std::endl;
     std::cout << moveSTR << std::endl;
 
-    string tile = tileSTR;
-    game->getCurrentPlayer()->removeFromHand(tile);
+    bool success = false;
+    Tile* mTile = new Tile(tileSTR);
 
-    string bodge = moveSTR.substr(1,2);
-    int col = std::stoi(bodge);
+    string colSTR = moveSTR.substr(1,2);
+    int col = std::stoi(colSTR);
 
-    string bodge2 = tileSTR.substr(1,1);
-    int shapeBodge = std::stoi(bodge2);
+    // Check if the player hand has the tile or not
+    if (game->getCurrentPlayer()->hasTile(mTile))
+    {
+        // Try to place the tile if the player has it
+        success = game->placeTile(*mTile, moveSTR.at(0), col);
 
-    Tile* mTile = new Tile(tileSTR.at(0), shapeBodge);
-    game->placeTile(*mTile, moveSTR.at(0), col);
-
+        // Remove tile from player hand if the move was valid
+        if (success)
+        {
+            game->removeTileCurrPlayer(mTile);
+            // Draw new tile from tileBag if there are any left
+            if (game->getTileBag()->getSize() > 0)
+            {
+                game->drawATile();
+            }
+        }
+        else{
+            std::cout << "Move is invalid." << std::endl;
+        }
+    }
+    else{
+        std::cout << "You don't have that tile" << std::endl;
+    }
     return success;
 }
 

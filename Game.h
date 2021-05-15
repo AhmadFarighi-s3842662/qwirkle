@@ -25,7 +25,7 @@ public:
 
     bool placeTile();
     bool placeTile(Tile& tile, char row, int col);
-    bool replaceTile();
+
     bool validateTilesInDirection(Tile& tile, int originX, int originY,
                                   int moveX, int moveY);
     int scoreTile(Tile& tile, int row, int col);
@@ -52,6 +52,7 @@ public:
     bool addTileToTileBag(Tile* t);
 
     bool swapTile(Tile* t);
+    void drawATile();
 };
 
 #endif // ASSIGN2_GAME_H

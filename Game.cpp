@@ -110,11 +110,6 @@ LinkedList* Game::getTileBag() {
     return tileBag;
 }
 
-bool Game::replaceTile() {
-    turnCount += 1;
-    return false;
-}
-
 bool Game::placeTile(Tile& tile, char row, int col) {
     bool inputValid = false;
     bool nCheck = false;
@@ -125,7 +120,7 @@ bool Game::placeTile(Tile& tile, char row, int col) {
     bool invCheck = false;
     bool hCheck = false;
     bool inhCheck = false;
-    int rowIndex = rowCharToIndex(row);    
+    int rowIndex = rowCharToIndex(row);
 
     // Check if theres already a tile in desired location
     if (board->tileAt(row,col) == nullptr) {
@@ -349,7 +344,6 @@ bool Game::saveGame(std::string filename) {
     return isSaved;
 }
 
-
 int Game::rowCharToIndex(char row) {
     row = std::toupper(row);
 
@@ -385,6 +379,14 @@ bool Game::swapTile(Tile* t){
 
         // Will this be needed? 
         delete sTile;
+        turnCount += 1;
     }
     return success;
+}
+
+void Game::drawATile(){
+    Tile *nTile = new Tile(*tileBag->getFront());
+    currentPlayer->addToHand(nTile);
+    tileBag->removeFront();
+    delete nTile;
 }
