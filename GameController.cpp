@@ -36,8 +36,8 @@ void GameController::addPlayer() {
          << "(uppercase characters only)" << endl;
         cout << "> ";
     std::getline(std::cin, input);
-    
-    if (validate_PlayerName)
+
+    if (validate_PlayerName(input))
     {
         correct = true;
     }
