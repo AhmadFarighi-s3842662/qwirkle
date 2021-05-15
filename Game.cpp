@@ -5,8 +5,7 @@
 
 #define ASCII_VALUE_A 65
 
-Game::Game(int playerCount)
-{
+Game::Game(int playerCount) {
     this->board = new Board;
     this->tileBag = new LinkedList();
     this->pCount = 0;
@@ -31,56 +30,48 @@ Game::Game(int playerCount)
     
     // shuffle the contents around
     srand(time(NULL));
-    for (size_t i = 0; i < 256; i++)
-    {
+    for (size_t i = 0; i < 256; i++) {
         int rando = rand() % 72;
         tileBag->addFront(tileBag->get(rando));
         tileBag->remove(rando+1);
-        
     }
-    
-
 }
 
-Game::Game(Game& other)
-{
+Game::Game(Game& other) {
     this->board = new Board(*other.board);
     this->tileBag = new LinkedList(*other.tileBag);
     this->players = new Player*[other.pCount]{};
-    for (int i = 0;i<other.pCount;i++){
+    for (int i = 0; i <other.pCount ; ++i) {
         this->addPlayer(other.getPlayer(i));
     }
     currentPlayer = new Player(*other.currentPlayer);
 }
 
-Game::~Game()
-{
+Game::~Game() {
     delete board;
     delete tileBag;
-    for (int i = 0;i<this->pCount;i++){
+    for (int i = 0; i < this->pCount ; ++i) {
         delete getPlayer(i);
     }
     delete players;
     
-    if(currentPlayer == nullptr){
+    if (currentPlayer == nullptr) {
         delete currentPlayer;
     }
 }
 
 void Game::dealPlayerTiles()
 {
-    for(int x = 0; x<getPlayerCount(); x++){
+    for (int x = 0; x < getPlayerCount(); ++x) {
         // Don't forget to get rid of this magic number later
-        for (size_t i = 0; i < 6; i++)
-        {
+        for (size_t i = 0; i < 6; i++) {
             getPlayer(x)->addToHand(tileBag->getFront());
             tileBag->removeFront();
         }
     }
 }
 
-void Game::printGame()
-{
+void Game::printGame() {
     // Debug prints, remove later.
     std::cout << tileBag->getSize() << std::endl;
     std::cout << tileBag->toString() << std::endl;
@@ -89,40 +80,42 @@ void Game::printGame()
     //std::cout << "p2 hand: " << player2->getHand() << std::endl;
 }
 
-void Game::addPlayer(Player* newPlayer){
+void Game::addPlayer(Player* newPlayer) {
     Player* newP = new Player(*newPlayer);
-    this->players[this->getPlayerCount()]=newP;
+    this->players[this->getPlayerCount()] = newP;
     this->pCount++;
 }
-int Game::getPlayerCount(){
+
+int Game::getPlayerCount() {
     return this->pCount;
 }
-Player* Game::getPlayer(int i)
-{
+
+Player* Game::getPlayer(int i) {
     return players[i];
 }
-Player* Game::getCurrentPlayer()
-{
+
+Player* Game::getCurrentPlayer() {
     return currentPlayer;
 }
-void Game::setCurrentPlayer(Player* playa)
-{
+
+void Game::setCurrentPlayer(Player* playa) {
     currentPlayer = playa;
 }
-Board* Game::getBoard()
-{
+
+Board* Game::getBoard() {
     return board;
 }
 
-LinkedList* Game::getTileBag()
-{
+LinkedList* Game::getTileBag() {
     return tileBag;
 }
-bool Game::replaceTile(){
-    turnCount+=1;
+
+bool Game::replaceTile() {
+    turnCount += 1;
     return false;
 }
-bool Game::placeTile(Tile& tile, char row, int col){
+
+bool Game::placeTile(Tile& tile, char row, int col) {
     bool inputValid = false;
     bool nCheck = false;
     bool eCheck = false;
@@ -134,161 +127,185 @@ bool Game::placeTile(Tile& tile, char row, int col){
     bool inhCheck = false;
     int rowIndex = rowCharToIndex(row);    
 
-    //Check if theres already a tile in desired location
-    if(board->tileAt(row,col)==nullptr){
-        //Check if theres a tile to the north
-        if(board->tileAt(rowIndex-1,col)!=nullptr)
-            nCheck=true;
-        //Check if theres a tile to the east
-        if(board->tileAt(rowIndex,col+1)!=nullptr)
-            eCheck=true;
-        //Check if theres a tile to the south
-        if(board->tileAt(rowIndex+1,col)!=nullptr)
-            sCheck=true;
-        //Check if theres a tile to the west
-        if(board->tileAt(rowIndex,col-1)!=nullptr)
-            wCheck=true;
+    // Check if theres already a tile in desired location
+    if (board->tileAt(row,col) == nullptr) {
+        // Check if there's a tile to the north
+        if (board->tileAt(rowIndex - 1, col) != nullptr) {
+            nCheck = true;
+        }
 
-        //Check if there are no neighbours
-        if(nCheck||eCheck||sCheck||wCheck){
-            //Check if tile fits within entire vertical line
-            if(nCheck||sCheck){
-                vCheck=validateTilesInDirection(tile,rowIndex,col,1,0);
-                invCheck=validateTilesInDirection(tile,rowIndex,col,-1,0);
+        // Check if there's a tile to the east
+        if (board->tileAt(rowIndex, col + 1) != nullptr) {
+            eCheck = true;
+        }
+
+        // Check if there's a tile to the south
+        if (board->tileAt(rowIndex + 1, col) != nullptr) {
+            sCheck = true;
+        }
+
+        // Check if there's a tile to the west
+        if (board->tileAt(rowIndex, col - 1) != nullptr) {
+            wCheck = true;
+        }
+
+        // Check if there are no neighbours
+        if (nCheck || eCheck || sCheck || wCheck) {
+            // Check if tile fits within entire vertical line
+            if (nCheck || sCheck) {
+                vCheck = validateTilesInDirection(tile,rowIndex,col,1,0);
+                invCheck = validateTilesInDirection(tile,rowIndex,col,-1,0);
             }
                 
-            //Check if tile fits within entire horizontal line
-            if(eCheck||wCheck){
-                hCheck=validateTilesInDirection(tile,rowIndex,col,0,1);
-                inhCheck=validateTilesInDirection(tile,rowIndex,col,0,-1);
+            // Check if tile fits within entire horizontal line
+            if (eCheck || wCheck) {
+                hCheck = validateTilesInDirection(tile,rowIndex,col,0,1);
+                inhCheck = validateTilesInDirection(tile,rowIndex,col,0,-1);
             }
         }
     }
-    //If vertical line was attempted and failed, or horizontal line was attempted and failed skip marking validaiton as true
-    if(((nCheck||sCheck)&&(vCheck&&invCheck))||((eCheck||wCheck)&&(hCheck&&inhCheck))){ 
+
+    // If vertical line was attempted and failed, or horizontal line was
+    // attempted and failed skip marking validation as true
+    if (((nCheck || sCheck) && (vCheck && invCheck)) ||
+        ((eCheck || wCheck) && (hCheck && inhCheck))) { 
         inputValid = true;
     }
-    if(((nCheck||sCheck)&&!(vCheck&&invCheck))||((eCheck||wCheck)&&!(hCheck&&inhCheck))){
+
+    if (((nCheck || sCheck) && !(vCheck && invCheck)) || 
+        ((eCheck || wCheck) && !(hCheck && inhCheck))) {
         inputValid = false;
     } 
 
-    if(inputValid||turnCount<1){
-        inputValid = board->placeTile(tile,row,col);
-        currentPlayer->setScore(currentPlayer->getScore()+scoreTile(tile,rowIndex,col));
-        turnCount+=1;
+    if (inputValid || turnCount < 1) {
+        inputValid = board->placeTile(tile, row, col);
+        currentPlayer->setScore(currentPlayer->getScore()
+                                + scoreTile(tile, rowIndex, col));
+        turnCount += 1;
     }
+
     return inputValid;
 }
 
-bool Game::validateTilesInDirection(Tile& tile, int originX, int originY, int moveX, int moveY){
+bool Game::validateTilesInDirection(Tile& tile, int originX, int originY,
+                                    int moveX, int moveY) {
     //set result to true
     bool result = true;
     //set similarAttribute to null
     string similarAttributeType = "";
     int multiplier = 1;
-    Tile* nextTile = board->tileAt(originX+moveX*multiplier,originY+moveY*multiplier);
+    Tile* nextTile = board->tileAt(originX + moveX * multiplier,
+                                   originY + moveY * multiplier);
     
-    while(result && nextTile!=nullptr){
-        //if similarAttribute condition is null, set one here
-        if (similarAttributeType == ""){
-            //If tiles share colour, set similar attribute to colour
-            if (nextTile->getColour() == tile.getColour()){
+    while (result && nextTile != nullptr) {
+        // if similarAttribute condition is null, set one here
+        if (similarAttributeType == "") {
+            // If tiles share colour, set similar attribute to colour
+            if (nextTile->getColour() == tile.getColour()) {
                 similarAttributeType = "COLOUR";
             }
-            //If tile is sharing shape and colour, its a duplicate and should be rejected,
-            //otherwise if its only matching shape, set similar attribute to shape
-            if(nextTile->getShape() == tile.getShape()){
-                similarAttributeType = (similarAttributeType != "") ? "" : "SHAPE";
+
+            // If tile is sharing shape and colour, its a duplicate and should
+            // be rejected, otherwise if its only matching shape, set similar
+            // attribute to shape
+            if (nextTile->getShape() == tile.getShape()) {
+                similarAttributeType =
+                    (similarAttributeType != "") ? "" : "SHAPE";
             }
         }
-        //If similarAttribute is still empty, tile does not match required conditions
-        if(similarAttributeType == ""){
+
+        // If similarAttribute is still empty, tile does not match required
+        // conditions
+        if (similarAttributeType == "") {
             result = false;
-        }else{
-            //If tiles share the same colour, check that shape is different
-            if(similarAttributeType == "COLOUR"){
-                result = (nextTile->getShape()!=tile.getShape()&&nextTile->getColour()==tile.getColour()) ? true : false;
+        } else {
+            // If tiles share the same colour, check that shape is different
+            if (similarAttributeType == "COLOUR") {
+                result = (nextTile->getShape() != tile.getShape() &&
+                          nextTile->getColour() == tile.getColour());
             }
                 
-            //If tiles share the same shape, check that colour is different
-            if(similarAttributeType == "SHAPE"){
-                result = (nextTile->getColour()!=tile.getColour()&&nextTile->getShape()==tile.getShape()) ? true : false;
+            // If tiles share the same shape, check that colour is different
+            if (similarAttributeType == "SHAPE") {
+                result = (nextTile->getColour() != tile.getColour() && 
+                          nextTile->getShape() == tile.getShape());
             }   
 
-            //Move to next tile
+            // Move to next tile
             multiplier += 1;
-            nextTile = board->tileAt(originX+moveX*multiplier,originY+moveY*multiplier);
-        }
-        
+            nextTile = board->tileAt(originX + moveX * multiplier,
+                                     originY + moveY * multiplier);
+        }  
     }
-    //Check if no tiles where found in set direction
-    if (multiplier == 1&&nextTile==nullptr){
+
+    // Check if no tiles where found in set direction
+    if (multiplier == 1 && nextTile == nullptr) {
         result = true;
     }
+
     return result;
 }
 
-int Game::scoreTile(Tile& tile, int row, int col){
+int Game::scoreTile(Tile& tile, int row, int col) {
     int score = 0;
     int multiplier = 1;
-    Tile* nextTile = board->tileAt(row+multiplier,col);
+    Tile* nextTile = board->tileAt(row + multiplier, col);
     int tileCount = 1;
 
-    //Check number of tiles in +ve row direction
-    while(nextTile!=nullptr){
-        tileCount+=1;
-        multiplier+=1;
-        nextTile = board->tileAt(row+multiplier,col);
+    // Check number of tiles in +ve row direction
+    while (nextTile != nullptr) {
+        tileCount += 1;
+        multiplier += 1;
+        nextTile = board->tileAt(row + multiplier, col);
     }
 
-    //Check number of tiles in -ve row direction
+    // Check number of tiles in -ve row direction
     multiplier = 1;
-    nextTile = board->tileAt(row-multiplier,col);
-    while(nextTile!=nullptr){
-        tileCount+=1;
-        multiplier+=1;
-        nextTile = board->tileAt(row-multiplier,col);
+    nextTile = board->tileAt(row - multiplier, col);
+    while (nextTile != nullptr) {
+        tileCount += 1;
+        multiplier += 1;
+        nextTile = board->tileAt(row - multiplier, col);
     }
 
-    //If tile was found to be within a row score accordingly
-    if (tileCount>1){
+    // If tile was found to be within a row score accordingly
+    if (tileCount > 1) {
         score += tileCount;
-        //Apply bonus score if quirkle
-        if(tileCount>=NUM_COLOURS){
+        // Apply bonus score if quirkle
+        if (tileCount >= NUM_COLOURS) {
             std::cout << "QWIRKLE!!!" << std::endl;
-            score+=NUM_COLOURS;
+            score += NUM_COLOURS;
         }
         
     }
 
-    //Check number of tiles in +ve column direction
+    // Check number of tiles in +ve column direction
     tileCount = 1;
     multiplier = 1;
-    nextTile = board->tileAt(row,col+multiplier);
-    while(nextTile!=nullptr){
-        tileCount+=1;
-        multiplier+=1;
-        nextTile = board->tileAt(row,col+multiplier);
+    nextTile = board->tileAt(row, col + multiplier);
+    while (nextTile != nullptr) {
+        tileCount += 1;
+        multiplier += 1;
+        nextTile = board->tileAt(row, col + multiplier);
     }
 
-    //Check number of tiles in -ve column direction
+    // Check number of tiles in -ve column direction
     multiplier = 1;
-    nextTile = board->tileAt(row,col-multiplier);
-    while(nextTile!=nullptr){
-        tileCount+=1;
-        multiplier+=1;
-        nextTile = board->tileAt(row,col-multiplier);
+    nextTile = board->tileAt(row, col - multiplier);
+    while (nextTile != nullptr) {
+        tileCount += 1;
+        multiplier += 1;
+        nextTile = board->tileAt(row, col - multiplier);
     }
 
-    //If tile was found to be within a row score accordingly
-    if (tileCount>1){
+    // If tile was found to be within a row score accordingly
+    if (tileCount > 1) {
         score += tileCount;
-        //Apply bonus score if quirkle
-        if(tileCount>=NUM_COLOURS){
+        // Apply bonus score if quirkle
+        if (tileCount >= NUM_COLOURS) {
             std::cout << "QWIRKLE!!!" << std::endl;
-            score+=NUM_COLOURS;
+            score += NUM_COLOURS;
         }
-        
     }
 
     return score;
