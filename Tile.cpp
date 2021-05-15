@@ -8,6 +8,13 @@ Tile::Tile(Colour colour, Shape shape) :
     shape(shape)
 {}
 
+// This is a stupid bodge
+Tile::Tile(std::string tileSTR)
+{
+    colour = tileSTR.at(0);
+    shape = std::stoi(tileSTR.substr(1,1));
+}
+
 Tile::Tile(Tile& other) :
     colour(other.colour),
     shape(other.shape)

@@ -13,6 +13,7 @@ class Tile {
 public:
     // Constructors & destructor
     Tile(Colour colour, Shape shape);
+    Tile(std::string tileSTR);
     Tile(Tile& other);
     Tile(Tile&& other);
     ~Tile();

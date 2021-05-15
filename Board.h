@@ -23,6 +23,7 @@ public:
     // Get a pointer to a copy of the tile at a position on the board, or a
     // nullptr if there is no tile at that position
     Tile* tileAt(char row, int col);
+    Tile* tileAt(int row, int col);
 
     // Place a tile on the board. Return true if successful, otherwise false.
     // Copies the given tile's shape and colour into the correct board position

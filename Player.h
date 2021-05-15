@@ -8,13 +8,14 @@ class Player {
 public:
     // constructor & destructor
     Player(string n);
+    Player(Player& other);
     ~Player();
 
     // setters & getters
     void setScore(int s);
     int getScore();
     string getName();
-    string getHand();
+    LinkedList* getHand();
 
     // methods to modify/access player hand
     bool hasTile(Tile* t);
