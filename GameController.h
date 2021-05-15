@@ -8,6 +8,7 @@ class GameController
 private:
     Game* game;
     int pCount;
+    bool keepGoing;
 public:
     GameController(int playerCount);
     ~GameController();
@@ -17,13 +18,14 @@ public:
     void gameLoop();
 
     string askForPlayerMove();
-    void validateMoveInput(string input);
+    bool validateAndExecute(string input);
 
-    void makeAMove(string tileSTR, string moveSTR);
-    void replaceATile(string tileSTR);
+    bool makeAMove(string tileSTR, string moveSTR);
+    bool replaceATile(string tileSTR);
 
     bool validate_Place(string input);
     bool validate_Replace(string input);
+    bool validate_PlayerName(string input);
     bool validate_save(std::vector<std::string>& input);
 
 };

@@ -41,7 +41,7 @@ string promptUser() {
  * contents which is then passed to conductGame().
  */
 void startNewGame() {
-   cout << "Starting a New Game!" << endl;
+   cout << "Starting a New Game" << endl;
    GameController* theGame = new GameController(2);
    theGame->gameStart();
    theGame->gameLoop();
