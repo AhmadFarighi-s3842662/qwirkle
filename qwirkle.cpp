@@ -28,6 +28,9 @@ void terminateGame();
 // them as a vector
 std::vector<string> splitString(string inputString, string delimiter);
 
+// Validate that a colour and shape are valid Tile colours and shapes
+bool validateTile(char colour, int shape);
+
 // Returns user input as std::string which can be parsed as int, where required,
 // using string stream (as demonstrated in menu)
 string promptUser() {
@@ -81,8 +84,6 @@ bool loadGame() {
     if (lines.size() >= (linesPerPlayer * NUM_PLAYERS) + gameStateLines) {
         try {
             bool formatIsValid = true;
-            char colorsArray[NUM_COLOURS] {RED, ORANGE, YELLOW, GREEN, BLUE,
-                                           PURPLE};
 
             Player* players[NUM_PLAYERS];
             for (int i = 0; i < NUM_PLAYERS; ++i) {
@@ -91,35 +92,26 @@ bool loadGame() {
 
             // Create players
             for (int i = 0; i < NUM_PLAYERS; ++i) {
-                string name = lines.at((i * linesPerPlayer) + 1);
+                string name = lines.at((i * linesPerPlayer));
                 players[i] = new Player(name);
 
                 // Set player's score
-                int score = std::stoi(lines.at((i * linesPerPlayer) + 2));
+                int score = std::stoi(lines.at((i * linesPerPlayer) + 1));
                 players[i]->setScore(score);
 
                 // Fill player's hand
                 std::vector<string> tileStrings =
-                    splitString(lines.at((i * linesPerPlayer) + 3), ",");
+                    splitString(lines.at((i * linesPerPlayer) + 2), ",");
                 
                 for (unsigned int j = 0; j < tileStrings.size(); ++j) {
                     char colour = tileStrings.at(j).at(0);
                     int shape = std::stoi(tileStrings.at(j).substr(1, 1));
 
-                    // Verify that the colour and shape are valid
-                    bool colourIsValid = false;
-                    for (char c : colorsArray) {
-                        if (colour == c) {
-                            colourIsValid = true;
-                        }
-                    }
-
-                    bool shapeIsValid = shape >= CIRCLE && shape <= CLOVER;
-
                     // If the colour/shape is invalid, the tile will still be
                     // added to the player's hand, however the format of the
                     // file will be considered invalid
-                    formatIsValid = colourIsValid && shapeIsValid;
+                    formatIsValid = formatIsValid &&
+                                    validateTile(colour, shape);
 
                     Tile* t = new Tile(colour, shape);
                     players[i]->addToHand(t);
@@ -129,6 +121,34 @@ bool loadGame() {
 
             // Create board
             Board board;
+
+            // Add tiles to board
+            int boardTilesLine = (linesPerPlayer * NUM_PLAYERS) + 1;
+            std::vector<string> placedTiles =
+                splitString(lines.at(boardTilesLine), ", ");
+
+            for (unsigned int i = 0; i < placedTiles.size(); ++i) {
+                std::vector<string> tileAndPos = splitString(placedTiles.at(i),
+                                                             "@");
+                if (tileAndPos.size() != 2) {
+                    formatIsValid = false;
+                } else {
+                    char tileColour = tileAndPos.at(0).at(0);
+                    int tileShape = std::stoi(tileAndPos.at(0).substr(1, 1));
+                    Tile* t = new Tile(tileColour, tileShape);
+
+                    // Mark file format as invalid if tile is invalid
+                    formatIsValid = formatIsValid &&
+                                    validateTile(tileColour, tileShape);
+
+                    // Add tile to board
+                    char tileRow = tileAndPos.at(1).at(0);
+                    int tileCol = std::stoi(tileAndPos.at(1).substr(1));
+
+                    board.placeTile(*t, tileRow, tileCol);
+                    delete t;
+                }
+            }    
 
             // Create tile bag
 
@@ -149,6 +169,7 @@ bool loadGame() {
 
         } catch (...) {
             // Error occurred while constructing game, success remains false
+            cout << "Uh oh" << endl;
         }
     }
 
@@ -179,11 +200,6 @@ void showCredits() {
 int main(void) {
     cout << "Welcome to Quirkle!" << endl << "-------------------" << endl;
     atexit(terminationMessage);
-
-    std::vector<string> a = splitString("B1@F9, B3@F10, P1@G9", ", ");
-    for (int i = 0; i < 3; ++i) {
-        cout << a.at(i) << endl;
-    }
 
     bool shouldDisplayMenu = true;
     do {
@@ -261,4 +277,19 @@ std::vector<string> splitString(string inputString, string delimiter) {
     }
 
     return tokens;
+}
+
+bool validateTile(char colour, int shape) {
+    char colorsArray[NUM_COLOURS] {RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE};
+
+    bool colourIsValid = false;
+    for (char c : colorsArray) {
+        if (colour == c) {
+            colourIsValid = true;
+        }
+    }
+
+    bool shapeIsValid = shape >= CIRCLE && shape <= CLOVER;
+
+    return colourIsValid && shapeIsValid;
 }
