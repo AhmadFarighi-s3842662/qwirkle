@@ -11,7 +11,7 @@ Game::Game(int playerCount) {
     this->pCount = 0;
     this->players = new Player*[playerCount]{};
     this->currentPlayer = nullptr;
-    this->turnCount = 0;
+    this->firstTurn = true;
 
     // Filling the bag with 72 tiles, coloursArray should be GC'd after
     char colorsArray[NUM_COLOURS] {RED,ORANGE,YELLOW,GREEN,BLUE,PURPLE};
@@ -172,11 +172,11 @@ bool Game::placeTile(Tile& tile, char row, int col) {
         inputValid = false;
     } 
 
-    if (inputValid || turnCount < 1) {
+    if (inputValid || firstTurn) {
         inputValid = board->placeTile(tile, row, col);
         currentPlayer->setScore(currentPlayer->getScore()
                                 + scoreTile(tile, rowIndex, col));
-        turnCount += 1;
+        firstTurn = false;
     }
 
     return inputValid;
@@ -379,7 +379,6 @@ bool Game::swapTile(Tile* t){
 
         // Will this be needed? 
         delete sTile;
-        turnCount += 1;
     }
     return success;
 }
