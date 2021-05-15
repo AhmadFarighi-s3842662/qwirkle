@@ -49,8 +49,7 @@ void GameController::gameLoop() {
         // Ask current player for thier move
         string input = askForPlayerMove();
         
-        // Perform move if valid, if not loop will run again without changing
-        // player
+        // Validate and execute move
         moveSuccess = validateMoveInput(input);
 
         // switch current player if move was a success
@@ -98,7 +97,7 @@ bool GameController::validateMoveInput(string input) {
     if (validate_Place(input)) {
         // Valid place command given
         std::cout << "Hey that was a place!" << std::endl;
-        makeAMove(results.at(1), results.at(3));
+        moveSuccess = makeAMove(results.at(1), results.at(3));
 
     } else if (validate_Replace(input)) {
         // Valid replace command given
