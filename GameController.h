@@ -17,10 +17,10 @@ public:
     void gameLoop();
 
     string askForPlayerMove();
-    void validateMoveInput(string input);
+    bool validateMoveInput(string input);
 
-    void makeAMove(string tileSTR, string moveSTR);
-    void replaceATile(string tileSTR);
+    bool makeAMove(string tileSTR, string moveSTR);
+    bool replaceATile(string tileSTR);
 
     bool validate_Place(string input);
     bool validate_Replace(string input);
