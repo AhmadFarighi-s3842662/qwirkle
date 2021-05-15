@@ -150,7 +150,7 @@ void GameController::replaceATile(string tileSTR) {
 
 bool GameController::validate_Place(string input) {
     // regex expression for pattern to be searched 
-    std::regex regex("^place [ROYGBP][1-6] to [A-Z][0-9]{1,2}$");
+    std::regex regex("^place [ROYGBP][1-6] at [A-Z][0-9]{1,2}$");
     // flag type for determining the matching behavior (in this case on string
     // objects)
     std::smatch m; 
