@@ -44,7 +44,13 @@ void GameController::gameLoop() {
     {
         bool moveSuccess = false;
         // Print current state of the board
-        cout << game->getBoard()->toString() << endl;
+        cout << 
+            game->getCurrentPlayer()->getName() << ", it's your turn" << endl
+            << "Score for "<< game->getPlayer(0)->getName()
+            << game->getPlayer(0)->getScore() << endl
+            << "Score for "<< game->getPlayer(1)->getName()
+            << game->getPlayer(1)->getScore() << endl
+            << game->getBoard()->toString() << endl;
 
         // Ask current player for thier move
         string input = askForPlayerMove();
@@ -68,17 +74,11 @@ void GameController::gameLoop() {
 }
 
 string GameController::askForPlayerMove() {
-    cout << "Current player: " << game->getCurrentPlayer()->getName() << endl
-         << "Player's hand: "
-         << game->getCurrentPlayer()->getHand()->toString() << endl;
-    
     string input = "";
-    cout << "Move format example: place R0 to A1" << endl;
-    cout << "Replace tile example: replace R0" << endl;
-    cout << "save" << endl;
-    cout << "quit" << endl;
-    cout << "> ";
 
+    cout << "Your hand is " << endl
+         << game->getCurrentPlayer()->getHand()->toString() << endl << endl;
+    cout << "> ";
     std::getline(std::cin, input);
     cout << endl;
     return input;
