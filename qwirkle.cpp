@@ -80,7 +80,9 @@ bool loadGame() {
     // Verify the file had enough lines in it as a sanity check
     if (lines.size() >= (linesPerPlayer * NUM_PLAYERS) + gameStateLines) {
         try {
-            bool formatIsValid = false;
+            bool formatIsValid = true;
+            char colorsArray[NUM_COLOURS] {RED, ORANGE, YELLOW, GREEN, BLUE,
+                                           PURPLE};
 
             Player* players[NUM_PLAYERS];
             for (int i = 0; i < NUM_PLAYERS; ++i) {
@@ -99,6 +101,30 @@ bool loadGame() {
                 // Fill player's hand
                 std::vector<string> tileStrings =
                     splitString(lines.at((i * linesPerPlayer) + 3), ",");
+                
+                for (unsigned int j = 0; j < tileStrings.size(); ++j) {
+                    char colour = tileStrings.at(j).at(0);
+                    int shape = std::stoi(tileStrings.at(j).substr(1, 1));
+
+                    // Verify that the colour and shape are valid
+                    bool colourIsValid = false;
+                    for (char c : colorsArray) {
+                        if (colour == c) {
+                            colourIsValid = true;
+                        }
+                    }
+
+                    bool shapeIsValid = shape >= CIRCLE && shape <= CLOVER;
+
+                    // If the colour/shape is invalid, the tile will still be
+                    // added to the player's hand, however the format of the
+                    // file will be considered invalid
+                    formatIsValid = colourIsValid && shapeIsValid;
+
+                    Tile* t = new Tile(colour, shape);
+                    players[i]->addToHand(t);
+                    delete t;
+                }
             }
 
             // Create board
