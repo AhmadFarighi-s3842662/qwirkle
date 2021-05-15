@@ -31,15 +31,17 @@ void GameController::addPlayer() {
     string input = "";
     while (correct == false)
     {
-    string input = "";
     cout << "Enter a name for player " << game->getPlayerCount() + 1 
-         << "(uppercase characters only)" << endl;
+         << " (uppercase characters only)" << endl;
         cout << "> ";
     std::getline(std::cin, input);
 
     if (validate_PlayerName(input))
     {
         correct = true;
+    }
+    else{
+        cout << "Invalid Input: name is not exclusively UPPERCASE" << endl;
     }
     }
     game->addPlayer(new Player(input));
