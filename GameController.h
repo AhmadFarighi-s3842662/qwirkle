@@ -8,6 +8,7 @@ class GameController
 private:
     Game* game;
     int pCount;
+    bool keepGoing;
 public:
     GameController(int playerCount);
     ~GameController();

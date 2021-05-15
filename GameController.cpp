@@ -17,6 +17,7 @@ GameController::GameController(int playerCount) {
     for (int i = 0; i < pCount; ++i) {
         addPlayer();
     }
+    this->keepGoing = true;
 }
 
 GameController::~GameController() {
@@ -39,7 +40,7 @@ void GameController::gameStart() {
 }
 
 void GameController::gameLoop() {
-    for (int i = 0; i < 20; ++i)
+    while (keepGoing)
     {
         bool moveSuccess = false;
         // Print current state of the board
@@ -121,6 +122,7 @@ bool GameController::validateMoveInput(string input) {
     } else if (results.size() > 0 && results.at(0) == "quit") {
         // Valid quit command given
         std::cout << "Hey that was a quit!" << std::endl;
+        keepGoing = false;
     } else {
         // Invalid command given
         std::cout << "bzzzt! wrong input!" << std::endl;
