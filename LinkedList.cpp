@@ -15,18 +15,18 @@ LinkedList::LinkedList(LinkedList& other) {
     if (other.head == nullptr) {
         head = nullptr;
         tail = nullptr;
+        size = 0;
     } else {
         head = new Node(*other.head);
-        Node* tempOther = new Node(*other.head->next);
-        Node* temp = head;
-
-        while (tempOther != nullptr){
-            temp->next = new Node(tempOther->tile, temp, nullptr);
-            temp = temp->next;
+        tail = head;
+        size = 1;
+        
+        Node* tempOther = other.head->next;
+        while (tempOther != nullptr) {
+            addBack(tempOther->tile);
             tempOther = tempOther->next;
         }
-
-        tail = temp;
+        
     }
 }
 
