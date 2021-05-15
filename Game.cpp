@@ -174,8 +174,9 @@ bool Game::placeTile(Tile& tile, char row, int col) {
 
     if (inputValid || firstTurn) {
         inputValid = board->placeTile(tile, row, col);
-        currentPlayer->setScore(currentPlayer->getScore()
-                                + scoreTile(tile, rowIndex, col));
+        // Adds the score of the move, ternary is for very first move to be (+1)
+        currentPlayer->setScore(currentPlayer->getScore() 
+            + ((firstTurn)? 1: scoreTile(tile, rowIndex, col)));
         firstTurn = false;
     }
 
