@@ -24,6 +24,10 @@ bool loadGame();
 void showCredits();
 void terminateGame();
 
+// Split inputString into tokens based on the locations of delimiter and return
+// them as a vector
+std::vector<string> splitString(string inputString, string delimiter);
+
 // Returns user input as std::string which can be parsed as int, where required,
 // using string stream (as demonstrated in menu)
 string promptUser() {
@@ -75,20 +79,50 @@ bool loadGame() {
 
     // Verify the file had enough lines in it as a sanity check
     if (lines.size() >= (linesPerPlayer * NUM_PLAYERS) + gameStateLines) {
-        bool formatIsValid = false;
+        try {
+            bool formatIsValid = false;
 
-        // Create players
+            Player* players[NUM_PLAYERS];
+            for (int i = 0; i < NUM_PLAYERS; ++i) {
+                players[i] = nullptr;
+            }
 
-        // Create board
+            // Create players
+            for (int i = 0; i < NUM_PLAYERS; ++i) {
+                string name = lines.at((i * linesPerPlayer) + 1);
+                players[i] = new Player(name);
 
-        // Create tile bag
+                // Set player's score
+                int score = std::stoi(lines.at((i * linesPerPlayer) + 2));
+                players[i]->setScore(score);
 
-        // Store current player
+                // Fill player's hand
+                std::vector<string> tileStrings =
+                    splitString(lines.at((i * linesPerPlayer) + 3), ",");
+            }
 
-        // Create game
+            // Create board
+            Board board;
 
-        if (formatIsValid) {
-            success = true;
+            // Create tile bag
+
+            // Store current player
+
+            // Create game
+
+            if (formatIsValid) {
+                success = true;
+            }
+
+            // Clean up memory
+            for (int i = 0; i < NUM_PLAYERS; ++i) {
+                if (players[i] != nullptr) {
+                    delete players[i];
+                }
+            }
+
+        } catch (...) {
+            // Error occurred while constructing game, success remains false
         }
     }
 
@@ -102,23 +136,28 @@ void terminationMessage() {
 // bit ugly but who cares its just credits ¯\_(ツ)_/¯
 void showCredits() {
     cout << "-------------------------------------" << endl;
-    cout << "Name: Ahmad Seiam Farighi" << endl << "Student ID: s3842662" << endl
-    << "Email: s3842662@student.rmit.edu.au" << endl << endl;
+    cout << "Name: Ahmad Seiam Farighi" << endl << "Student ID: s3842662"
+         << endl << "Email: s3842662@student.rmit.edu.au" << endl << endl;
 
     cout << "Name: Daniel Marmion" << endl << "Student ID: s3842912" << endl
-    << "Email: s3842912@student.rmit.edu.au" << endl << endl;
+         << "Email: s3842912@student.rmit.edu.au" << endl << endl;
 
     cout << "Name: Richard Forsey" << endl << "Student ID: s3857811" << endl
-    << "Email: s3857811@student.rmit.edu.au" << endl << endl;
+         << "Email: s3857811@student.rmit.edu.au" << endl << endl;
 
     cout << "Name: Aaron Fisher" << endl << "Student ID: s3840619" << endl
-    << "Email: s3840619@student.rmit.edu.au" << endl;
+         << "Email: s3840619@student.rmit.edu.au" << endl;
     cout << "-------------------------------------" << endl << endl;
 }
 
 int main(void) {
     cout << "Welcome to Quirkle!" << endl << "-------------------" << endl;
     atexit(terminationMessage);
+
+    std::vector<string> a = splitString("B1@F9, B3@F10, P1@G9", ", ");
+    for (int i = 0; i < 3; ++i) {
+        cout << a.at(i) << endl;
+    }
 
     bool shouldDisplayMenu = true;
     do {
@@ -169,4 +208,31 @@ int main(void) {
     delete list;
 
     return EXIT_SUCCESS;
+}
+
+std::vector<string> splitString(string inputString, string delimiter) {
+    std::vector<string> tokens;
+
+    // Test whether or not there is at least one occurence of delimiter in the
+    // string
+    if (inputString.find(delimiter) != string::npos) {
+        int startpos = 0;
+        while (inputString.find(delimiter, startpos) != string::npos) {
+            int delimiterLoc = inputString.find(delimiter, startpos);
+            int tokenLength = delimiterLoc - startpos;
+
+            tokens.push_back(inputString.substr(startpos, tokenLength));
+
+            startpos = delimiterLoc + delimiter.size();
+        }
+
+        // Account for the remaining substring after the last delimiter
+        tokens.push_back(inputString.substr(startpos));
+    } else {
+        // Delimiter is not in string, so add only the original string to the
+        // vector
+        tokens.push_back(inputString);
+    }
+
+    return tokens;
 }
