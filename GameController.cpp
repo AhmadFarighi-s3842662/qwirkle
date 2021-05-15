@@ -19,6 +19,28 @@ GameController::GameController(int playerCount) {
     }
 }
 
+GameController::GameController(Player* p1, Player* p2, Board& board,
+                               LinkedList& tileBag, int currentPlayerNo) {
+    // For milestone 2, this constructor only creates 2-player games.
+    this->pCount = 2;
+    this->game = new Game(pCount);
+    game->addPlayer(p1);
+    game->addPlayer(p2);
+    game->setCurrentPlayer(game->getPlayer(currentPlayerNo));
+
+    game->setBoard(board);
+    game->setTileBag(tileBag);
+
+    LinkedList* newHand = new LinkedList(tileBag);
+    cout << "COPY " << newHand->toString() << " of size " << newHand->getSize() << endl;
+
+    cout << "Created player 1: "<< endl;
+    cout << p1->getHand()->toString() << endl;
+    cout << game->getPlayer(0)->serialise() << endl;
+    cout << "Created player 2: "<< endl;
+    cout << game->getPlayer(1)->serialise() << endl;
+}
+
 GameController::~GameController() {
     if (game != nullptr) {
         delete game;

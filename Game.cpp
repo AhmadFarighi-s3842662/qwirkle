@@ -115,6 +115,22 @@ bool Game::replaceTile() {
     return false;
 }
 
+void Game::setBoard(Board& b) {
+    if (board != nullptr) {
+        delete board;
+    }
+
+    board = new Board(b);
+}
+
+void Game::setTileBag(LinkedList& tb) {
+    if (tileBag != nullptr) {
+        delete tileBag;
+    }
+
+    tileBag = new LinkedList(tb);
+}
+
 bool Game::placeTile(Tile& tile, char row, int col) {
     bool inputValid = false;
     bool nCheck = false;

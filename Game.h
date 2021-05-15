@@ -47,6 +47,9 @@ public:
 
     Board* getBoard();
     LinkedList* getTileBag();
+
+    void setBoard(Board& b);
+    void setTileBag(LinkedList& tb);
 };
 
 #endif // ASSIGN2_GAME_H

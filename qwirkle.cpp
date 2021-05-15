@@ -175,12 +175,37 @@ bool loadGame() {
             }
 
             // Store current player
-            string currPlayer = lines.at((linesPerPlayer * NUM_PLAYERS) + 3);
+            string currPlayerName =
+                lines.at((linesPerPlayer * NUM_PLAYERS) + 3);
 
-            // Create game
+            // Determine which player is the current player
+            int currPlayerNo = -1;
+            for (int i = 0; i < NUM_PLAYERS; ++i) {
+                Player* p = players[i];
+                if (p != nullptr && p->getName() == currPlayerName) {
+                    currPlayerNo = i;
+                }
+            }
 
+            if (currPlayerNo < 0 || currPlayerNo >= NUM_PLAYERS) {
+                formatIsValid = false;
+            }
+
+            // Create gameController & game, then begin the game if the file
+            // was a valid save
             if (formatIsValid) {
                 success = true;
+
+                cout << "Qwirkle game successfully loaded" << endl;
+                GameController* theGame = new GameController(players[0],
+                                                             players[1],
+                                                             board,
+                                                             tileList,
+                                                             currPlayerNo);
+                theGame->gameLoop();
+                delete theGame;
+            } else {
+                cout << "The file loaded is not a valid Qwirkle save." << endl;
             }
 
             // Clean up memory
@@ -192,7 +217,7 @@ bool loadGame() {
 
         } catch (...) {
             // Error occurred while constructing game, success remains false
-            cout << "Uh oh" << endl;
+            cout << "An error occurred while loading the game." << endl;
         }
     }
 

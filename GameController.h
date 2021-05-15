@@ -10,6 +10,8 @@ private:
     int pCount;
 public:
     GameController(int playerCount);
+    GameController(Player* p1, Player* p2, Board& board, LinkedList& tileBag,
+                   int currentPlayerNo);
     ~GameController();
 
     void addPlayer();
