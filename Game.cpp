@@ -362,3 +362,29 @@ int Game::rowCharToIndex(char row) {
      */ 
     return (int) row - ASCII_VALUE_A;
 }
+
+bool Game::removeTileCurrPlayer(Tile* t){
+    return getCurrentPlayer()->removeFromHand(t);
+}
+
+bool Game::addTileToTileBag(Tile* t){
+    tileBag->addBack(t);
+    return true;
+}
+
+bool Game::swapTile(Tile* t){
+    bool success = false;
+    if (tileBag->getSize() > 0)
+    {
+        currentPlayer->removeFromHand(t);
+        tileBag->addBack(t);
+        Tile *sTile = new Tile(*tileBag->getFront());
+        currentPlayer->addToHand(sTile);
+        tileBag->removeFront();
+        success = true;
+
+        // Will this be needed? 
+        delete sTile;
+    }
+    return success;
+}

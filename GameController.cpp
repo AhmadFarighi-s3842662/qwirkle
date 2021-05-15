@@ -41,9 +41,10 @@ void GameController::gameStart() {
 void GameController::gameLoop() {
     for (int i = 0; i < 20; ++i) {
         // Print current state of the board
-        cout << game->getBoard()->toString() << endl;
+        // cout << game->getBoard()->toString() << endl;
 
         // Ask current player for thier move
+        game->getTileBag()->clear();
         string input = askForPlayerMove();
         validateMoveInput(input);
     }
@@ -92,13 +93,13 @@ void GameController::validateMoveInput(string input) {
     if (validate_Place(input)) {
         // Valid place command given
         std::cout << "Hey that was a place!" << std::endl;
-
         makeAMove(results.at(1), results.at(3));
+
     } else if (validate_Replace(input)) {
         // Valid replace command given
         std::cout << "Hey that was a replace!" << std::endl;
-
         replaceATile(results.at(1));
+        
     } else if (validate_save(results)) {
         // Because validate_save() is true, we know there is a second token
         std::string filename = results.at(1);
@@ -137,15 +138,24 @@ void GameController::makeAMove(string tileSTR, string moveSTR) {
 }
 
 void GameController::replaceATile(string tileSTR) {
-    std::cout << tileSTR << std::endl;
+    Tile* rTile = new Tile(tileSTR);
+    bool success = false;
 
-    game->getCurrentPlayer()->removeFromHand(tileSTR);
-    game->getTileBag()->addBack(new Tile(tileSTR));
-
-    game->getCurrentPlayer()->addToHand(game->getTileBag()->getFront());
-    game->getTileBag()->removeFront();
-
-    std::cout << game->getCurrentPlayer()->getHand()->toString() << std::endl;
+    // Check if the player has that tile or not, if yes...
+    if (game->getCurrentPlayer()->hasTile(rTile))
+    {
+        success = game->swapTile(rTile);
+    }
+    // If the action didn't succeed, we should tell the player
+    if (success == false)
+    {
+        std::cout << "Replacement not successful." << std::endl;
+        if (game->getTileBag()->getSize() < 1)
+        {
+            std::cout << "Tile bag is empty!" << std::endl;
+        }
+    }
+    delete rTile;
 }
 
 bool GameController::validate_Place(string input) {

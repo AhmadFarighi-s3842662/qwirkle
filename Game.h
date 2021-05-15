@@ -47,6 +47,11 @@ public:
 
     Board* getBoard();
     LinkedList* getTileBag();
+
+    bool removeTileCurrPlayer(Tile* t);
+    bool addTileToTileBag(Tile* t);
+
+    bool swapTile(Tile* t);
 };
 
 #endif // ASSIGN2_GAME_H
