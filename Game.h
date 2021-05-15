@@ -13,6 +13,7 @@ private:
     LinkedList* tileBag;
     Player** players;
     int pCount;
+    int turnCount;
 
     Player* currentPlayer;
     int rowCharToIndex(char row);
@@ -27,12 +28,14 @@ public:
     bool replaceTile();
     bool validateTilesInDirection(Tile& tile, int originX, int originY,
                                   int moveX, int moveY);
+    int scoreTile(Tile& tile, int row, int col);
 
     // Attempts to save the game to a file with the given name. Returns true
     // if successful.
     //
     // Ends the file with a newline and overwrites the file if it exists.
     bool saveGame(std::string filename);
+
 
     int getPlayerCount();
     void dealPlayerTiles();
