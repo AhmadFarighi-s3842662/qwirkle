@@ -27,10 +27,21 @@ GameController::~GameController() {
 }
 
 void GameController::addPlayer() {
+    bool correct = false;
     string input = "";
-    cout << "Player " << game->getPlayerCount() + 1 << " name: " << endl;
-    cout << "> ";
+    while (correct == false)
+    {
+    string input = "";
+    cout << "Enter a name for player " << game->getPlayerCount() + 1 
+         << "(uppercase characters only)" << endl;
+        cout << "> ";
     std::getline(std::cin, input);
+    
+    if (validate_PlayerName)
+    {
+        correct = true;
+    }
+    }
     game->addPlayer(new Player(input));
 }
 
@@ -187,6 +198,8 @@ bool GameController::replaceATile(string tileSTR) {
 }
 
 bool GameController::validate_Place(string input) {
+    // https://www.softwaretestinghelp.com/regex-in-cpp/
+    // Modified from here
     // regex expression for pattern to be searched 
     std::regex regex("^place [ROYGBP][1-6] at [A-Z][0-9]{1,2}$");
     // flag type for determining the matching behavior (in this case on string
@@ -197,12 +210,18 @@ bool GameController::validate_Place(string input) {
 }
 
 bool GameController::validate_Replace(string input) {
-    // regex expression for pattern to be searched 
+    // https://www.softwaretestinghelp.com/regex-in-cpp/
+    // Modified from here
     std::regex regex("^replace [ROYGBP][1-6]$");
-    // flag type for determining the matching behavior (in this case on string
-    // objects)
     std::smatch m; 
-    // regex_search that searches pattern in the string
+    return std::regex_search(input, m, regex); 
+}
+
+bool GameController::validate_PlayerName(string input) {
+    // https://www.softwaretestinghelp.com/regex-in-cpp/
+    // Modified from here
+    std::regex regex("^[A-Z]+$");
+    std::smatch m; 
     return std::regex_search(input, m, regex); 
 }
 
