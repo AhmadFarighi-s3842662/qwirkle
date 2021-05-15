@@ -7,8 +7,10 @@
 #include <sstream>
 #include <string>
 #include <stdlib.h>
+#include <vector>
 
 #define EXIT_SUCCESS 0
+#define NUM_PLAYERS 2
 
 using std::cout;
 using std::cin;
@@ -34,20 +36,61 @@ string promptUser() {
 
 void startNewGame() {
    cout << "Starting a New Game!" << endl;
-   GameController* theGame = new GameController(2);
+   GameController* theGame = new GameController(NUM_PLAYERS);
    theGame->gameStart();
    theGame->gameLoop();
 }
 
 bool loadGame() {
+   // Get the filename from the user
    cout << "Enter the filename from which to load a game" << endl;
    string filename = promptUser();
 
    bool success = false;
+   std::vector<string> lines;
 
-   // Check that the file exists
+   // Attempt to read the file
+   try {
+      std::ifstream inFile;
+      inFile.open(filename);
+
+      // Check that the file exists and store the contents of the file
+      if (inFile.good()) {
+         // Store each line of the file in the vector
+         while (!inFile.eof()) {
+            string currLine;
+            std::getline(inFile, currLine);
+            lines.push_back(currLine);
+         }
+      }
+
+      inFile.close();
+   } catch (...) {
+      // Error while reading file, success remains false
+   }
 
    // Check that the format of the file is correct
+   const int linesPerPlayer = 3;
+   const int gameStateLines = 4;
+
+   // Verify the file had enough lines in it as a sanity check
+   if (lines.size() >= (linesPerPlayer * NUM_PLAYERS) + gameStateLines) {
+      bool formatIsValid = false;
+      
+      // Create players
+
+      // Create board
+
+      // Create tile bag
+
+      // Store current player
+
+      // Create game
+
+      if (formatIsValid) {
+         success = true;
+      }
+   }
 
    return success;
 }
