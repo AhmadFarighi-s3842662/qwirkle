@@ -150,7 +150,7 @@ bool GameController::makeAMove(string tileSTR, string moveSTR) {
 
     return success;
 }
-// Need to update this to return a bool
+
 bool GameController::replaceATile(string tileSTR) {
     Tile* rTile = new Tile(tileSTR);
     bool success = false;
