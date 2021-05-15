@@ -30,15 +30,6 @@ GameController::GameController(Player* p1, Player* p2, Board& board,
 
     game->setBoard(board);
     game->setTileBag(tileBag);
-
-    LinkedList* newHand = new LinkedList(tileBag);
-    cout << "COPY " << newHand->toString() << " of size " << newHand->getSize() << endl;
-
-    cout << "Created player 1: "<< endl;
-    cout << p1->getHand()->toString() << endl;
-    cout << game->getPlayer(0)->serialise() << endl;
-    cout << "Created player 2: "<< endl;
-    cout << game->getPlayer(1)->serialise() << endl;
 }
 
 GameController::~GameController() {
