@@ -151,8 +151,31 @@ bool loadGame() {
             }    
 
             // Create tile bag
+            std::vector<string> bagTiles =
+                splitString(lines.at((linesPerPlayer * NUM_PLAYERS) + 2), ",");
+
+            LinkedList tileList;
+            for (unsigned int i = 0; i < bagTiles.size(); ++i) {
+                string tileString = bagTiles.at(i);
+
+                if (tileString.size() != 2) {
+                    formatIsValid = false;
+                } else {
+                    char tileColour = tileString.at(0);
+                    int tileShape = std::stoi(tileString.substr(1, 1));
+                    Tile* t = new Tile(tileColour, tileShape);
+
+                    // Mark file format as invalid if tile is invalid
+                    formatIsValid = formatIsValid &&
+                                    validateTile(tileColour, tileShape);
+
+                    tileList.addBack(t);
+                    delete t;
+                }
+            }
 
             // Store current player
+            string currPlayer = lines.at((linesPerPlayer * NUM_PLAYERS) + 3);
 
             // Create game
 
