@@ -18,7 +18,7 @@ public:
     void gameLoop();
 
     string askForPlayerMove();
-    bool validateMoveInput(string input);
+    bool validateAndExecute(string input);
 
     bool makeAMove(string tileSTR, string moveSTR);
     bool replaceATile(string tileSTR);

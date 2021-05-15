@@ -50,7 +50,7 @@ void GameController::gameLoop() {
         string input = askForPlayerMove();
         
         // Validate and execute move
-        moveSuccess = validateMoveInput(input);
+        moveSuccess = validateAndExecute(input);
 
         // switch current player if move was a success
         if (moveSuccess == true)
@@ -84,7 +84,7 @@ string GameController::askForPlayerMove() {
     return input;
 }
 
-bool GameController::validateMoveInput(string input) {
+bool GameController::validateAndExecute(string input) {
     bool moveSuccess = false;
 
     // This block borrowed and modified from: 
