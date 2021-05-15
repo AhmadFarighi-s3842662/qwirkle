@@ -44,13 +44,13 @@ void GameController::gameLoop() {
     {
         bool moveSuccess = false;
         // Print current state of the board
-        cout << 
+        cout << endl <<
             game->getCurrentPlayer()->getName() << ", it's your turn" << endl
-            << "Score for "<< game->getPlayer(0)->getName()
+            << "Score for " << game->getPlayer(0)->getName() << ": "
             << game->getPlayer(0)->getScore() << endl
-            << "Score for "<< game->getPlayer(1)->getName()
+            << "Score for " << game->getPlayer(1)->getName() << ": "
             << game->getPlayer(1)->getScore() << endl
-            << game->getBoard()->toString() << endl;
+            << game->getBoard()->toString() << endl << endl;
 
         // Ask current player for thier move
         string input = askForPlayerMove();
