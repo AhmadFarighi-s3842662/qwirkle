@@ -1,7 +1,8 @@
-#include "LinkedList.h"
 #include "Game.h"
 #include "GameController.h"
+#include "LinkedList.h"
 
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -31,15 +32,6 @@ string promptUser() {
    return input;
 }
 
-/*
- * maybe also have a method called like conductGame(Game* g) which takes in a
- * game `state`/instance and conducts the gameplay loop i.e startnewGame calls
- * Game constructor and then calls conductGame() with the newly created Game
- * object.
- * 
- * loadGame reads file and instantiates Game object with the deserialized
- * contents which is then passed to conductGame().
- */
 void startNewGame() {
    cout << "Starting a New Game!" << endl;
    GameController* theGame = new GameController(2);
@@ -48,8 +40,16 @@ void startNewGame() {
 }
 
 bool loadGame() {
-   cout << "Which game would you like to load?" << endl;
-   return false;
+   cout << "Enter the filename from which to load a game" << endl;
+   string filename = promptUser();
+
+   bool success = false;
+
+   // Check that the file exists
+
+   // Check that the format of the file is correct
+
+   return success;
 }
 
 void terminationMessage() {
