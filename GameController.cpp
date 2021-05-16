@@ -97,6 +97,8 @@ void GameController::gameLoop()
             if (game->getCurrentPlayer()->getHand()->getSize() == 0)
             {
                 cout << game->getBoard()->toString() << endl;
+                game->getCurrentPlayer()->setScore(
+                    (game->getCurrentPlayer()->getScore() + 6));
                 keepGoing = false;
                 cout << "Game over" << endl;
                 cout << "Score for " << game->getPlayer(0)->getName() << ": "
