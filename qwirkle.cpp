@@ -46,6 +46,7 @@ void startNewGame() {
     GameController* theGame = new GameController(NUM_PLAYERS);
     theGame->gameStart();
     theGame->gameLoop();
+    delete theGame;
 }
 
 bool loadGame() {
