@@ -41,6 +41,10 @@ GameController::GameController(Player *p1, Player *p2, Board &board,
     if (!firstTurn) {
         game->skipFirstTurn();
     }
+
+    // If this is not included, the game status will not be displayed on the
+    // first turn of a loaded game.
+    printScoreBoardHand();
 }
 
 GameController::~GameController()
