@@ -169,7 +169,10 @@ bool loadGame() {
                 string tileString = bagTiles.at(i);
 
                 if (tileString.size() != 2) {
-                    formatIsValid = false;
+                    // An empty tile bag is considered valid
+                    if (!(bagTiles.size() == 1 && bagTiles.at(0) == "")) {
+                        formatIsValid = false;
+                    }
                 } else {
                     char tileColour = tileString.at(0);
                     int tileShape = std::stoi(tileString.substr(1, 1));
