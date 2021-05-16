@@ -53,6 +53,7 @@ public:
 
     bool swapTile(Tile* t);
     void drawATile();
+    Player* getWinner();
 };
 
 #endif // ASSIGN2_GAME_H
