@@ -109,7 +109,8 @@ void GameController::gameLoop()
                  << game->getPlayer(0)->getScore() << endl;
             cout << "Score for " << game->getPlayer(1)->getName() << ": " 
                  << game->getPlayer(1)->getScore() << endl;
-            cout << "Player " << game->getWinner()->getName() << "won!" << endl;
+            cout << "Player " << game->getWinner()->getName() << " won!" 
+                 << endl;
         }
 
         // switch current player if move was a success
@@ -184,7 +185,7 @@ bool GameController::validateAndExecute(string input)
     else
     {
         // Invalid command given
-        std::cout << "Invalid input" << std::endl;
+        std::cout << "Invalid Input" << std::endl;
     }
 
     return moveSuccess;
