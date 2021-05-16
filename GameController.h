@@ -12,7 +12,7 @@ private:
 public:
     GameController(int playerCount);
     GameController(Player* p1, Player* p2, Board& board, LinkedList& tileBag,
-                   int currentPlayerNo);
+                   int currentPlayerNo, bool firstTurn);
     ~GameController();
 
     void addPlayer();

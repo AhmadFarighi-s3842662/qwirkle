@@ -23,7 +23,8 @@ GameController::GameController(int playerCount)
 }
 
 GameController::GameController(Player *p1, Player *p2, Board &board,
-                               LinkedList &tileBag, int currentPlayerNo)
+                               LinkedList &tileBag, int currentPlayerNo,
+                               bool firstTurn)
 {
     // For milestone 2, this constructor only creates 2-player games.
     this->pCount = 2;
@@ -36,6 +37,10 @@ GameController::GameController(Player *p1, Player *p2, Board &board,
     game->setTileBag(tileBag);
 
     this->keepGoing = true;
+
+    if (!firstTurn) {
+        game->skipFirstTurn();
+    }
 }
 
 GameController::~GameController()

@@ -123,6 +123,7 @@ bool loadGame() {
 
             // Create board
             Board board;
+            bool firstTurn = false;
 
             // Add tiles to board
             int boardTilesLine = (linesPerPlayer * NUM_PLAYERS) + 1;
@@ -133,7 +134,14 @@ bool loadGame() {
                 std::vector<string> tileAndPos = splitString(placedTiles.at(i),
                                                              "@");
                 if (tileAndPos.size() != 2) {
-                    formatIsValid = false;
+                    // Format is invalid, unless the board is empty in which
+                    // case there is only an empty string in the board-tile line
+                    if (!(placedTiles.size() == 1 && placedTiles.at(0) == "")) {
+                        formatIsValid = false;
+                    } else {
+                        // Board is empty, so the next move is the first one
+                        firstTurn = true;
+                    }
                 } else {
                     char tileColour = tileAndPos.at(0).at(0);
                     int tileShape = std::stoi(tileAndPos.at(0).substr(1, 1));
@@ -150,7 +158,7 @@ bool loadGame() {
                     board.placeTile(*t, tileRow, tileCol);
                     delete t;
                 }
-            }    
+            }
 
             // Create tile bag
             std::vector<string> bagTiles =
@@ -203,9 +211,8 @@ bool loadGame() {
                                                              players[1],
                                                              board,
                                                              tileList,
-                                                             currPlayerNo);
-                if (placedTiles.size()>0)
-                    theGame->skipFirstTurn();
+                                                             currPlayerNo,
+                                                             firstTurn);
                 theGame->gameLoop();
                 delete theGame;
             } else {

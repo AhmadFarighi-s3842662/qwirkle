@@ -424,7 +424,7 @@ void Game::drawATile(){
     delete nTile;
 }
 
-Player* Game::getWinner(){
+Player* Game::getWinner() {
     int score = 0;
     Player* winner = nullptr;
 
@@ -438,6 +438,6 @@ Player* Game::getWinner(){
     return winner;
 }
 
-void Game::skipFirstTurn(){
+void Game::skipFirstTurn() {
     firstTurn = false;
 }
