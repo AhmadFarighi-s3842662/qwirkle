@@ -31,6 +31,8 @@ GameController::GameController(Player* p1, Player* p2, Board& board,
 
     game->setBoard(board);
     game->setTileBag(tileBag);
+
+    this->keepGoing = true;
 }
 
 GameController::~GameController() {
