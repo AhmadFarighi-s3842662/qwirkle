@@ -9,4 +9,7 @@ qwirkle
 valgrind-out.txt
 methodPrototyping
 methodPrototyping.cpp
+
+# Saved games for testing
 testgame*
+qwirkled*
