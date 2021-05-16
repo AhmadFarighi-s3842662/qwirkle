@@ -270,7 +270,7 @@ int main(void) {
                 shouldDisplayMenu = false;
             } else {
                 cout << "Invalid Input. Please enter a number from 1-4."
-                     << endl;
+                     << endl << endl;
             }
         } else {
             if (selection == 1) {
