@@ -437,3 +437,7 @@ Player* Game::getWinner(){
     }
     return winner;
 }
+
+void Game::skipFirstTurn(){
+    firstTurn = false;
+}
