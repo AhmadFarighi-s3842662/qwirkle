@@ -416,7 +416,7 @@ Player* Game::getWinner(){
     int score = 0;
     Player* winner = nullptr;
 
-    for (size_t i = 0; i < pCount; i++)
+    for (int i = 0; i < pCount; i++)
     {
         if (players[i]->getScore() > score)
         {
