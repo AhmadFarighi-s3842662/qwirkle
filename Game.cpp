@@ -11,7 +11,7 @@ Game::Game(int playerCount) {
     this->pCount = 0;
     this->players = new Player*[playerCount]{};
     this->currentPlayer = nullptr;
-    this->turnCount = 0;
+    this->firstTurn = true;
 
     // Filling the bag with 72 tiles, coloursArray should be GC'd after
     char colorsArray[NUM_COLOURS] {RED,ORANGE,YELLOW,GREEN,BLUE,PURPLE};
@@ -110,10 +110,10 @@ LinkedList* Game::getTileBag() {
     return tileBag;
 }
 
-bool Game::replaceTile() {
-    turnCount += 1;
-    return false;
-}
+// bool Game::replaceTile() {
+//     turnCount += 1;
+//     return false;
+// }
 
 void Game::setBoard(Board& b) {
     if (board != nullptr) {
@@ -141,7 +141,7 @@ bool Game::placeTile(Tile& tile, char row, int col) {
     bool invCheck = false;
     bool hCheck = false;
     bool inhCheck = false;
-    int rowIndex = rowCharToIndex(row);    
+    int rowIndex = rowCharToIndex(row);
 
     // Check if theres already a tile in desired location
     if (board->tileAt(row,col) == nullptr) {
@@ -193,11 +193,12 @@ bool Game::placeTile(Tile& tile, char row, int col) {
         inputValid = false;
     } 
 
-    if (inputValid || turnCount < 1) {
+    if (inputValid || firstTurn) {
         inputValid = board->placeTile(tile, row, col);
-        currentPlayer->setScore(currentPlayer->getScore()
-                                + scoreTile(tile, rowIndex, col));
-        turnCount += 1;
+        // Adds the score of the move, ternary is for very first move to be (+1)
+        currentPlayer->setScore(currentPlayer->getScore() 
+            + ((firstTurn)? 1: scoreTile(tile, rowIndex, col)));
+        firstTurn = false;
     }
 
     return inputValid;
@@ -365,7 +366,6 @@ bool Game::saveGame(std::string filename) {
     return isSaved;
 }
 
-
 int Game::rowCharToIndex(char row) {
     row = std::toupper(row);
 
@@ -377,4 +377,51 @@ int Game::rowCharToIndex(char row) {
      * https://www.w3schools.com/charsets/ref_html_ascii.asp
      */ 
     return (int) row - ASCII_VALUE_A;
+}
+
+bool Game::removeTileCurrPlayer(Tile* t){
+    return getCurrentPlayer()->removeFromHand(t);
+}
+
+bool Game::addTileToTileBag(Tile* t){
+    tileBag->addBack(t);
+    return true;
+}
+
+bool Game::swapTile(Tile* t){
+    bool success = false;
+    if (tileBag->getSize() > 0)
+    {
+        currentPlayer->removeFromHand(t);
+        tileBag->addBack(t);
+        Tile *sTile = new Tile(*tileBag->getFront());
+        currentPlayer->addToHand(sTile);
+        tileBag->removeFront();
+        success = true;
+
+        // Will this be needed? 
+        delete sTile;
+    }
+    return success;
+}
+
+void Game::drawATile(){
+    Tile *nTile = new Tile(*tileBag->getFront());
+    currentPlayer->addToHand(nTile);
+    tileBag->removeFront();
+    delete nTile;
+}
+
+Player* Game::getWinner(){
+    int score = 0;
+    Player* winner = nullptr;
+
+    for (size_t i = 0; i < pCount; i++)
+    {
+        if (players[i]->getScore() > score)
+        {
+            winner = players[i];
+        }
+    }
+    return winner;
 }
