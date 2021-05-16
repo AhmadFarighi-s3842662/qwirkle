@@ -71,11 +71,13 @@ void LinkedList::addFront(Tile* tile) {
         head = newNode;
         tail = newNode;
         size++;
+        delete newNode;
     } else {
         Node* newNode = new Node(tile, nullptr, head);
         head->previous = newNode;
         head = newNode;
         size++;
+        delete newNode;
     }
 }
 
@@ -87,6 +89,7 @@ void LinkedList::addBack(Tile* tile) {
         tail->next = newNode;
         tail = newNode;
         size++;
+        delete newNode;
     }
 }
 
@@ -98,11 +101,6 @@ void LinkedList::removeFront() {
         head = head->next;
         if (head != nullptr) {head->previous = nullptr;}
         delete temp;
-
-        // head = head->next;
-        // delete head->previous;
-        // head->previous = nullptr;     this is the line that causes seg fault
-        
         size--;
     }
 }
