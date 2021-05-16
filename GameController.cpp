@@ -117,20 +117,21 @@ void GameController::gameLoop()
                      << game->getPlayer(1)->getScore() << endl;
                 cout << "Player " << game->getWinner()->getName() << " won!"
                      << endl;
-            }
-
-            // switch current player if move was a success, and reprint board
-            if (moveSuccess == true)
-            {
-                if (game->getCurrentPlayer() == game->getPlayer(0))
+            } else {
+                // switch current player if move was a success, and reprint
+                // board, but not if the game has finished
+                if (moveSuccess == true)
                 {
-                    game->setCurrentPlayer(game->getPlayer(1));
+                    if (game->getCurrentPlayer() == game->getPlayer(0))
+                    {
+                        game->setCurrentPlayer(game->getPlayer(1));
+                    }
+                    else
+                    {
+                        game->setCurrentPlayer(game->getPlayer(0));
+                    }
+                    printScoreBoardHand();
                 }
-                else
-                {
-                    game->setCurrentPlayer(game->getPlayer(0));
-                }
-            printScoreBoardHand();
             }
         }
     }
