@@ -48,11 +48,14 @@ public:
     Board* getBoard();
     LinkedList* getTileBag();
 
+    void setBoard(Board& b);
+    void setTileBag(LinkedList& tb);
     bool removeTileCurrPlayer(Tile* t);
     bool addTileToTileBag(Tile* t);
 
     bool swapTile(Tile* t);
     void drawATile();
+    Player* getWinner();
 };
 
 #endif // ASSIGN2_GAME_H

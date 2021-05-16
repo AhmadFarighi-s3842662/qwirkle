@@ -110,6 +110,27 @@ LinkedList* Game::getTileBag() {
     return tileBag;
 }
 
+// bool Game::replaceTile() {
+//     turnCount += 1;
+//     return false;
+// }
+
+void Game::setBoard(Board& b) {
+    if (board != nullptr) {
+        delete board;
+    }
+
+    board = new Board(b);
+}
+
+void Game::setTileBag(LinkedList& tb) {
+    if (tileBag != nullptr) {
+        delete tileBag;
+    }
+
+    tileBag = new LinkedList(tb);
+}
+
 bool Game::placeTile(Tile& tile, char row, int col) {
     bool inputValid = false;
     bool nCheck = false;
@@ -389,4 +410,18 @@ void Game::drawATile(){
     currentPlayer->addToHand(nTile);
     tileBag->removeFront();
     delete nTile;
+}
+
+Player* Game::getWinner(){
+    int score = 0;
+    Player* winner = nullptr;
+
+    for (int i = 0; i < pCount; i++)
+    {
+        if (players[i]->getScore() > score)
+        {
+            winner = players[i];
+        }
+    }
+    return winner;
 }

@@ -21,6 +21,21 @@ GameController::GameController(int playerCount) {
     this->keepGoing = true;
 }
 
+GameController::GameController(Player* p1, Player* p2, Board& board,
+                               LinkedList& tileBag, int currentPlayerNo) {
+    // For milestone 2, this constructor only creates 2-player games.
+    this->pCount = 2;
+    this->game = new Game(pCount);
+    game->addPlayer(p1);
+    game->addPlayer(p2);
+    game->setCurrentPlayer(game->getPlayer(currentPlayerNo));
+
+    game->setBoard(board);
+    game->setTileBag(tileBag);
+
+    this->keepGoing = true;
+}
+
 GameController::~GameController() {
     if (game != nullptr) {
         delete game;
@@ -57,7 +72,7 @@ void GameController::gameLoop() {
     while (keepGoing)
     {
         bool moveSuccess = false;
-        // Print current state of the board
+        // Print current state of the game/board
         cout << endl <<
             game->getCurrentPlayer()->getName() << ", it's your turn" << endl
             << "Score for " << game->getPlayer(0)->getName() << ": "
@@ -71,6 +86,20 @@ void GameController::gameLoop() {
         
         // Validate and execute move
         moveSuccess = validateAndExecute(input);
+
+        // If the last move emptied the player hand, end the game, this can only
+        // happen after the TileBag was emptied, so no need to check for that.
+        if (game->getCurrentPlayer()->getHand()->getSize() == 0)
+        {
+            cout << game->getBoard()->toString() << endl;
+            keepGoing = false;
+            cout << "Game over" << endl;
+            cout << "Score for " << game->getPlayer(0)->getName() << ": " <<
+                    game->getPlayer(0)->getScore() << endl;
+            cout << "Score for " << game->getPlayer(1)->getName() << ": " <<
+                    game->getPlayer(1)->getScore() << endl;
+            cout << "Player " << game->getWinner()->getName() << "won!" << endl;
+        }
 
         // switch current player if move was a success
         if (moveSuccess == true)
