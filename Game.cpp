@@ -299,7 +299,7 @@ int Game::scoreTile(Tile& tile, int row, int col) {
         score += tileCount;
         // Apply bonus score if quirkle
         if (tileCount >= NUM_COLOURS) {
-            std::cout << "QWIRKLE!!!" << std::endl;
+            std::cout << "QWIRKLE!!!" << std::endl << std::endl;
             score += NUM_COLOURS;
         }
         

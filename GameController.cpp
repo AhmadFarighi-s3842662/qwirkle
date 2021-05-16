@@ -84,8 +84,8 @@ void GameController::gameLoop()
         bool moveSuccess = false;
         // Print current state of the game/board
         cout << endl
-             << game->getCurrentPlayer()->getName() << ", it's your turn" << endl
-             << "Score for " << game->getPlayer(0)->getName() << ": "
+             << game->getCurrentPlayer()->getName() << ", it's your turn" 
+             << endl << "Score for " << game->getPlayer(0)->getName() << ": "
              << game->getPlayer(0)->getScore() << endl
              << "Score for " << game->getPlayer(1)->getName() << ": "
              << game->getPlayer(1)->getScore() << endl
@@ -105,8 +105,10 @@ void GameController::gameLoop()
             cout << game->getBoard()->toString() << endl;
             keepGoing = false;
             cout << "Game over" << endl;
-            cout << "Score for " << game->getPlayer(0)->getName() << ": " << game->getPlayer(0)->getScore() << endl;
-            cout << "Score for " << game->getPlayer(1)->getName() << ": " << game->getPlayer(1)->getScore() << endl;
+            cout << "Score for " << game->getPlayer(0)->getName() << ": " 
+                 << game->getPlayer(0)->getScore() << endl;
+            cout << "Score for " << game->getPlayer(1)->getName() << ": " 
+                 << game->getPlayer(1)->getScore() << endl;
             cout << "Player " << game->getWinner()->getName() << "won!" << endl;
         }
 
@@ -152,13 +154,11 @@ bool GameController::validateAndExecute(string input)
     if (validate_Place(input))
     {
         // Valid place command given
-        std::cout << "Hey that was a place!" << std::endl;
         moveSuccess = makeAMove(results.at(1), results.at(3));
     }
     else if (validate_Replace(input))
     {
         // Valid replace command given
-        std::cout << "Hey that was a replace!" << std::endl;
         moveSuccess = replaceATile(results.at(1));
     }
     else if (validate_save(results))
@@ -179,7 +179,6 @@ bool GameController::validateAndExecute(string input)
     else if (results.size() > 0 && results.at(0) == "quit")
     {
         // Valid quit command given
-        std::cout << "Hey that was a quit!" << std::endl;
         keepGoing = false;
     }
     else
@@ -193,10 +192,6 @@ bool GameController::validateAndExecute(string input)
 
 bool GameController::makeAMove(string tileSTR, string moveSTR)
 {
-    // DEBUG
-    std::cout << tileSTR << std::endl;
-    std::cout << moveSTR << std::endl;
-
     bool success = false;
     Tile *mTile = new Tile(tileSTR);
 

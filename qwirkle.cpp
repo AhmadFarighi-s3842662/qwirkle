@@ -42,8 +42,9 @@ string promptUser() {
 }
 
 void startNewGame() {
-    cout << "Starting a New Game!" << endl;
+    cout << "Starting a New Game" << endl << endl;
     GameController* theGame = new GameController(NUM_PLAYERS);
+    cout << "Let's Play!" << endl;
     theGame->gameStart();
     theGame->gameLoop();
     delete theGame;
