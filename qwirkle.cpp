@@ -204,6 +204,8 @@ bool loadGame() {
                                                              board,
                                                              tileList,
                                                              currPlayerNo);
+                if (placedTiles.size()>0)
+                    theGame->skipFirstTurn();
                 theGame->gameLoop();
                 delete theGame;
             } else {

@@ -132,6 +132,10 @@ void GameController::gameLoop()
     }
 }
 
+void GameController::skipFirstTurn(){
+    game->skipFirstTurn();
+}
+
 string GameController::askForPlayerMove()
 {
     string input = "";

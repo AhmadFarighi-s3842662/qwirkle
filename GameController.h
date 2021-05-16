@@ -18,6 +18,7 @@ public:
     void addPlayer();
     void gameStart();
     void gameLoop();
+    void skipFirstTurn();
 
     string askForPlayerMove();
     bool validateAndExecute(string input);
