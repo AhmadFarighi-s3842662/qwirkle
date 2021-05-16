@@ -30,6 +30,7 @@ public:
     bool validate_Replace(string input);
     bool validate_PlayerName(string input);
     bool validate_save(std::vector<std::string>& input);
+    void printScoreBoardHand();
 
 };
 

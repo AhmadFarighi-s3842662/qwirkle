@@ -75,6 +75,7 @@ void GameController::gameStart()
 {
     game->dealPlayerTiles();
     game->setCurrentPlayer(game->getPlayer(0));
+    printScoreBoardHand();
 }
 
 void GameController::gameLoop()
@@ -82,16 +83,6 @@ void GameController::gameLoop()
     while (keepGoing)
     {
         bool moveSuccess = false;
-        // Print current state of the game/board
-        cout << endl
-             << game->getCurrentPlayer()->getName() << ", it's your turn"
-             << endl
-             << "Score for " << game->getPlayer(0)->getName() << ": "
-             << game->getPlayer(0)->getScore() << endl
-             << "Score for " << game->getPlayer(1)->getName() << ": "
-             << game->getPlayer(1)->getScore() << endl
-             << game->getBoard()->toString() << endl
-             << endl;
 
         // Ask current player for thier move
         string input = askForPlayerMove();
@@ -116,7 +107,7 @@ void GameController::gameLoop()
                      << endl;
             }
 
-            // switch current player if move was a success
+            // switch current player if move was a success, and reprint board
             if (moveSuccess == true)
             {
                 if (game->getCurrentPlayer() == game->getPlayer(0))
@@ -127,6 +118,7 @@ void GameController::gameLoop()
                 {
                     game->setCurrentPlayer(game->getPlayer(0));
                 }
+            printScoreBoardHand();
             }
         }
     }
@@ -140,9 +132,7 @@ string GameController::askForPlayerMove()
 {
     string input = "";
 
-    cout << "Your hand is " << endl
-         << game->getCurrentPlayer()->getHand()->toString() << endl
-         << endl;
+    cout << endl;
     cout << "> ";
     std::getline(std::cin, input);
     cout << endl;
@@ -305,4 +295,20 @@ bool GameController::validate_save(std::vector<std::string> &input)
     }
 
     return isValid;
+}
+
+void GameController::printScoreBoardHand()
+{
+    // Print current state of the game/board
+    cout << endl
+         << game->getCurrentPlayer()->getName() << ", it's your turn"
+         << endl
+         << "Score for " << game->getPlayer(0)->getName() << ": "
+         << game->getPlayer(0)->getScore() << endl
+         << "Score for " << game->getPlayer(1)->getName() << ": "
+         << game->getPlayer(1)->getScore() << endl
+         << game->getBoard()->toString() << endl
+         << endl
+         << "Your hand is " << endl
+         << game->getCurrentPlayer()->getHand()->toString() << endl;
 }
