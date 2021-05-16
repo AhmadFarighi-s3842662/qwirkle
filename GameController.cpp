@@ -71,7 +71,8 @@ void GameController::gameLoop() {
         // Validate and execute move
         moveSuccess = validateAndExecute(input);
 
-        // If the last move emptied the player hand, end the game
+        // If the last move emptied the player hand, end the game, this can only
+        // happen after the TileBag was emptied, so no need to check for that.
         if (game->getCurrentPlayer()->getHand()->getSize() == 0)
         {
             cout << game->getBoard()->toString() << endl;
