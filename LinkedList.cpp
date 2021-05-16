@@ -32,17 +32,7 @@ LinkedList::LinkedList(LinkedList& other) {
 
 LinkedList::~LinkedList() {
     if (size != 0) {
-        Node* n = head;
-        Node* next = nullptr;
-        int counter = 0;
-
-        // Actually, do I even need the counter?
-        while (n != nullptr && counter < size) {
-            next = n->next;
-            delete n;
-            n = next;
-            counter++;
-        }
+        clear();
     }
 }
 
@@ -98,11 +88,6 @@ void LinkedList::removeFront() {
         head = head->next;
         if (head != nullptr) {head->previous = nullptr;}
         delete temp;
-
-        // head = head->next;
-        // delete head->previous;
-        // head->previous = nullptr;     this is the line that causes seg fault
-        
         size--;
     }
 }

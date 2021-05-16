@@ -42,10 +42,12 @@ string promptUser() {
 }
 
 void startNewGame() {
-    cout << "Starting a New Game!" << endl;
+    cout << "Starting a New Game" << endl << endl;
     GameController* theGame = new GameController(NUM_PLAYERS);
+    cout << "Let's Play!" << endl;
     theGame->gameStart();
     theGame->gameLoop();
+    delete theGame;
 }
 
 bool loadGame() {
@@ -202,6 +204,8 @@ bool loadGame() {
                                                              board,
                                                              tileList,
                                                              currPlayerNo);
+                if (placedTiles.size()>0)
+                    theGame->skipFirstTurn();
                 theGame->gameLoop();
                 delete theGame;
             } else {
@@ -268,7 +272,7 @@ int main(void) {
                 shouldDisplayMenu = false;
             } else {
                 cout << "Invalid Input. Please enter a number from 1-4."
-                     << endl;
+                     << endl << endl;
             }
         } else {
             if (selection == 1) {

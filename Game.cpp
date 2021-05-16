@@ -53,11 +53,7 @@ Game::~Game() {
     for (int i = 0; i < this->pCount ; ++i) {
         delete getPlayer(i);
     }
-    delete players;
-    
-    if (currentPlayer == nullptr) {
-        delete currentPlayer;
-    }
+    delete[] players;
 }
 
 void Game::dealPlayerTiles()
@@ -144,26 +140,35 @@ bool Game::placeTile(Tile& tile, char row, int col) {
     int rowIndex = rowCharToIndex(row);
 
     // Check if theres already a tile in desired location
-    if (board->tileAt(row,col) == nullptr) {
+    Tile* thisPos = board->tileAt(row,col);
+    if (thisPos == nullptr) {
         // Check if there's a tile to the north
-        if (board->tileAt(rowIndex - 1, col) != nullptr) {
+        Tile* nPos = board->tileAt(rowIndex - 1, col);
+        if (nPos != nullptr) {
             nCheck = true;
         }
+        delete nPos;
 
         // Check if there's a tile to the east
-        if (board->tileAt(rowIndex, col + 1) != nullptr) {
+        Tile* ePos = board->tileAt(rowIndex, col + 1);
+        if (ePos != nullptr) {
             eCheck = true;
         }
+        delete ePos;
 
         // Check if there's a tile to the south
-        if (board->tileAt(rowIndex + 1, col) != nullptr) {
+        Tile* sPos = board->tileAt(rowIndex + 1, col);
+        if (sPos != nullptr) {
             sCheck = true;
         }
+        delete sPos;
 
         // Check if there's a tile to the west
-        if (board->tileAt(rowIndex, col - 1) != nullptr) {
+        Tile* wPos = board->tileAt(rowIndex, col - 1);
+        if (wPos != nullptr) {
             wCheck = true;
         }
+        delete wPos;
 
         // Check if there are no neighbours
         if (nCheck || eCheck || sCheck || wCheck) {
@@ -180,6 +185,7 @@ bool Game::placeTile(Tile& tile, char row, int col) {
             }
         }
     }
+    delete thisPos;
 
     // If vertical line was attempted and failed, or horizontal line was
     // attempted and failed skip marking validation as true
@@ -250,16 +256,17 @@ bool Game::validateTilesInDirection(Tile& tile, int originX, int originY,
 
             // Move to next tile
             multiplier += 1;
+            delete nextTile;
             nextTile = board->tileAt(originX + moveX * multiplier,
                                      originY + moveY * multiplier);
-        }  
+        }
     }
 
     // Check if no tiles where found in set direction
     if (multiplier == 1 && nextTile == nullptr) {
         result = true;
     }
-
+    delete nextTile;
     return result;
 }
 
@@ -273,6 +280,7 @@ int Game::scoreTile(Tile& tile, int row, int col) {
     while (nextTile != nullptr) {
         tileCount += 1;
         multiplier += 1;
+        delete nextTile;
         nextTile = board->tileAt(row + multiplier, col);
     }
 
@@ -282,6 +290,7 @@ int Game::scoreTile(Tile& tile, int row, int col) {
     while (nextTile != nullptr) {
         tileCount += 1;
         multiplier += 1;
+        delete nextTile;
         nextTile = board->tileAt(row - multiplier, col);
     }
 
@@ -290,7 +299,7 @@ int Game::scoreTile(Tile& tile, int row, int col) {
         score += tileCount;
         // Apply bonus score if quirkle
         if (tileCount >= NUM_COLOURS) {
-            std::cout << "QWIRKLE!!!" << std::endl;
+            std::cout << "QWIRKLE!!!" << std::endl << std::endl;
             score += NUM_COLOURS;
         }
         
@@ -303,6 +312,7 @@ int Game::scoreTile(Tile& tile, int row, int col) {
     while (nextTile != nullptr) {
         tileCount += 1;
         multiplier += 1;
+        delete nextTile;
         nextTile = board->tileAt(row, col + multiplier);
     }
 
@@ -312,8 +322,10 @@ int Game::scoreTile(Tile& tile, int row, int col) {
     while (nextTile != nullptr) {
         tileCount += 1;
         multiplier += 1;
+        delete nextTile;
         nextTile = board->tileAt(row, col - multiplier);
     }
+
 
     // If tile was found to be within a row score accordingly
     if (tileCount > 1) {
@@ -324,7 +336,7 @@ int Game::scoreTile(Tile& tile, int row, int col) {
             score += NUM_COLOURS;
         }
     }
-
+    delete nextTile;
     return score;
 }
 
@@ -424,4 +436,8 @@ Player* Game::getWinner(){
         }
     }
     return winner;
+}
+
+void Game::skipFirstTurn(){
+    firstTurn = false;
 }
