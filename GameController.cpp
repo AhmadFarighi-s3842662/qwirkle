@@ -84,8 +84,9 @@ void GameController::gameLoop()
         bool moveSuccess = false;
         // Print current state of the game/board
         cout << endl
-             << game->getCurrentPlayer()->getName() << ", it's your turn" 
-             << endl << "Score for " << game->getPlayer(0)->getName() << ": "
+             << game->getCurrentPlayer()->getName() << ", it's your turn"
+             << endl
+             << "Score for " << game->getPlayer(0)->getName() << ": "
              << game->getPlayer(0)->getScore() << endl
              << "Score for " << game->getPlayer(1)->getName() << ": "
              << game->getPlayer(1)->getScore() << endl
@@ -94,35 +95,38 @@ void GameController::gameLoop()
 
         // Ask current player for thier move
         string input = askForPlayerMove();
-
-        // Validate and execute move
-        moveSuccess = validateAndExecute(input);
-
-        // If the last move emptied the player hand, end the game, this can only
-        // happen after the TileBag was emptied, so no need to check for that.
-        if (game->getCurrentPlayer()->getHand()->getSize() == 0)
+        if (keepGoing)
         {
-            cout << game->getBoard()->toString() << endl;
-            keepGoing = false;
-            cout << "Game over" << endl;
-            cout << "Score for " << game->getPlayer(0)->getName() << ": " 
-                 << game->getPlayer(0)->getScore() << endl;
-            cout << "Score for " << game->getPlayer(1)->getName() << ": " 
-                 << game->getPlayer(1)->getScore() << endl;
-            cout << "Player " << game->getWinner()->getName() << " won!" 
-                 << endl;
-        }
+            // Validate and execute move
+            moveSuccess = validateAndExecute(input);
 
-        // switch current player if move was a success
-        if (moveSuccess == true)
-        {
-            if (game->getCurrentPlayer() == game->getPlayer(0))
+            // If the last move emptied the player hand, end the game, this can 
+            // only happen after the TileBag was emptied, so no need to check 
+            // for that.
+            if (game->getCurrentPlayer()->getHand()->getSize() == 0)
             {
-                game->setCurrentPlayer(game->getPlayer(1));
+                cout << game->getBoard()->toString() << endl;
+                keepGoing = false;
+                cout << "Game over" << endl;
+                cout << "Score for " << game->getPlayer(0)->getName() << ": "
+                     << game->getPlayer(0)->getScore() << endl;
+                cout << "Score for " << game->getPlayer(1)->getName() << ": "
+                     << game->getPlayer(1)->getScore() << endl;
+                cout << "Player " << game->getWinner()->getName() << " won!"
+                     << endl;
             }
-            else
+
+            // switch current player if move was a success
+            if (moveSuccess == true)
             {
-                game->setCurrentPlayer(game->getPlayer(0));
+                if (game->getCurrentPlayer() == game->getPlayer(0))
+                {
+                    game->setCurrentPlayer(game->getPlayer(1));
+                }
+                else
+                {
+                    game->setCurrentPlayer(game->getPlayer(0));
+                }
             }
         }
     }
@@ -138,6 +142,10 @@ string GameController::askForPlayerMove()
     cout << "> ";
     std::getline(std::cin, input);
     cout << endl;
+    if (std::cin.eof())
+    {
+        keepGoing = false;
+    }
     return input;
 }
 
@@ -182,6 +190,7 @@ bool GameController::validateAndExecute(string input)
         // Valid quit command given
         keepGoing = false;
     }
+
     else
     {
         // Invalid command given
