@@ -50,6 +50,25 @@ std::string Tile::toString() {
     return stringRepr;
 }
 
+// Get ANSI colour coded string representation of tile
+std::string Tile::toColouredString() {
+    std::string str = toString();
+    if (colour == RED) {
+        str = "\033[;31m" + str + "\033[0m";
+    } else if (colour == ORANGE) {
+        str = "\033[38;5;208m" + str + "\033[0m";
+    } else if (colour == YELLOW) {
+        str = "\033[;33m" + str + "\033[0m";
+    } else if (colour == GREEN) {
+        str = "\033[;32m" + str + "\033[0m";
+    } else if (colour == BLUE) {
+        str = "\033[38;5;39m" + str + "\033[0m";
+    } else if (colour == PURPLE) {
+        str = "\033[38;5;135m" + str + "\033[0m";
+    }
+    return str;
+}
+
 bool Tile::equals(Tile t) {
     return t.getColour() == colour && t.getShape() == shape;
 }

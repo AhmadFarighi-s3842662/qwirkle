@@ -36,6 +36,19 @@ LinkedList* Player::getHand() {
     return hand;
 }
 
+
+// Return string representation of player hand with ANSI colour coded tile-strings
+string Player::getColouredHand() {
+    int index = 0;
+    string str = "";
+    while (index < hand->getSize() - 1) {
+        str += hand->get(index)->toColouredString() + ",";
+        index++;
+    }
+    if (hand->getSize() != 0) {str += hand->get(index)->toColouredString();}
+    return str;
+}
+
 /*
  * checks if player's hand contains specified tile
  * returns false if tile does not exist in player hand

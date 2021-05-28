@@ -27,6 +27,9 @@ public:
     // Get [letter][number] string representation of the tile
     std::string toString();
 
+    // Get string representation of tile with coloured escape
+    std::string toColouredString();
+
     // Check if a tile's shape and colour exactly match those of another tile
     bool equals(Tile t);
 

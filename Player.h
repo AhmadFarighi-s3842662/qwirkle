@@ -16,6 +16,7 @@ public:
     int getScore();
     string getName();
     LinkedList* getHand();
+    string getColouredHand();
 
     // methods to modify/access player hand
     bool hasTile(Tile* t);
