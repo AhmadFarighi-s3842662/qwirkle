@@ -321,7 +321,7 @@ void GameController::printScoreBoardHand()
          << "Score for " << game->getPlayer(1)->getName() << ": "
          << game->getPlayer(1)->getScore() << endl
          << game->getBoard()->toString() << endl
-         << endl
+         << "[\u25EF = 1 | \u2726 = 2 | \u25C6 = 3 | \u25A1 = 4 | \u2736 = 5 | \u2618 = 6]" << endl
          << "Your hand is " << endl
          << game->getCurrentPlayer()->getColouredHand() << endl;
 }
